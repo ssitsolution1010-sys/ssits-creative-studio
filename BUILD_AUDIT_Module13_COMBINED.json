@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 3,
+  "batch_count": 4,
   "batches": [
     {
       "module": 13,
@@ -82,8 +82,32 @@
         "No automatic cloud synchronization",
         "No WebXR or camera AR"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 4,
+      "name": "Bounded Undo/Redo Scene History",
+      "implemented": [
+        "Undo and redo controls for scene edits",
+        "Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z shortcuts outside text inputs",
+        "40-step bounded in-memory history",
+        "History controls update disabled state",
+        "Preserves existing scene schema, WebGL/Canvas renderer, presets and local storage"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "control_ids_present": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "History is in-memory only and resets on reload",
+        "Asynchronous JSON import and local load are not yet tracked",
+        "Fine-grained slider inputs each create a history entry"
+      ]
     }
   ],
-  "overall_status": "Batch 3 development committed; manual browser QA pending",
-  "note": "Preserves original Batch 1 and Batch 2 audit records. Static checks are not production certification."
+  "overall_status": "Batch 4 development committed; manual browser QA pending",
+  "note": "Cumulative Batches 1–4 preserved; static checks do not certify production readiness."
 }
