@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 3</title>
+<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 4</title>
 <style>
 :root{color-scheme:dark;--bg:#111915;--panel:#1d2a23;--line:#3e5847;--gold:#e7c47b;--text:#f1f4ee;--muted:#b9cbbb}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
@@ -22,7 +22,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 @media(max-width:850px){main{grid-template-columns:1fr}canvas{height:350px}}
 </style></head><body>
 <header><h1>SS ITS Creative Studio — AR / VR &amp; Interactive</h1>
-<p class="muted">Module 13 · Batch 3 — Scene Presets, Duplicate & Local Save</p></header>
+<p class="muted">Module 13 · Batch 4 — Undo / Redo Scene History</p></header>
 <main>
 <section class="panel" aria-labelledby="stageTitle">
 <h2 id="stageTitle">Interactive 3D-style Scene Preview</h2>
@@ -30,7 +30,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 <div class="toolbar">
 <button type="button" id="addCube">+ Cube</button><button type="button" id="addSphere">+ Sphere</button>
 <button type="button" id="addPillar">+ Pillar</button><button type="button" id="resetView">Reset View</button><button type="button" id="rendererMode" aria-pressed="false">Enable WebGL</button>
-<button type="button" id="removeObject">Remove Selected</button><button type="button" id="duplicateObject">Duplicate Selected</button>
+<button type="button" id="removeObject">Remove Selected</button><button type="button" id="duplicateObject">Duplicate Selected</button><button type="button" id="undoEdit" disabled>Undo</button><button type="button" id="redoEdit" disabled>Redo</button>
 </div>
 <div class="stage"><canvas id="scene" tabindex="0" aria-label="Interactive projected scene; select objects using object list for accessible controls"></canvas><canvas id="webglScene" tabindex="0" hidden aria-label="WebGL 3D preview; use the object list for accessible selection"></canvas></div>
 <p class="hint small">WebGL is an optional real GPU 3D preview. Canvas fallback remains available. No WebXR headset session or camera AR.</p>
@@ -226,6 +226,52 @@ webglCanvas.addEventListener('webglcontextrestored',()=>{gl=null;program=null;no
  $('saveLocal').addEventListener('click',()=>{try{localStorage.setItem(localKey,JSON.stringify(validateScene(state)));notify('Saved in this browser only')}catch(e){notify('Local save unavailable: '+e.message)}});
  $('loadLocal').addEventListener('click',()=>{try{const saved=localStorage.getItem(localKey);if(!saved){notify('No local save found');return}if(state.objects.length&&!confirm('Replace current scene with local save?'))return;applyScene(JSON.parse(saved));notify('Local scene loaded')}catch(e){notify('Local load failed: '+e.message)}});
  $('clearLocal').addEventListener('click',()=>{try{localStorage.removeItem(localKey);notify('Local save cleared')}catch(e){notify('Local storage unavailable: '+e.message)}});
+
+// Batch 4: bounded scene edit history; does not alter prior scene schema or storage.
+const undoStack=[],redoStack=[],historyLimit=40;
+const historySnapshot=()=>JSON.stringify({scene:validateScene(state),selected});
+const restoreHistory=s=>{
+ const saved=JSON.parse(s);applyScene(saved.scene);
+ if(saved.selected&&state.objects.some(o=>o.id===saved.selected)){selected=saved.selected;sync();draw()}
+};
+const historyButtons=()=>{$('undoEdit').disabled=!undoStack.length;$('redoEdit').disabled=!redoStack.length};
+function recordHistory(before){
+ const after=historySnapshot();
+ if(before===after)return;
+ undoStack.push(before);if(undoStack.length>historyLimit)undoStack.shift();
+ redoStack.length=0;historyButtons();
+}
+function undoHistory(){
+ if(!undoStack.length)return;
+ const before=undoStack.pop();redoStack.push(historySnapshot());
+ restoreHistory(before);historyButtons();notify('Undo applied');
+}
+function redoHistory(){
+ if(!redoStack.length)return;
+ const next=redoStack.pop();undoStack.push(historySnapshot());
+ restoreHistory(next);historyButtons();notify('Redo applied');
+}
+$('undoEdit').addEventListener('click',undoHistory);
+$('redoEdit').addEventListener('click',redoHistory);
+document.addEventListener('keydown',e=>{
+ if(!(e.ctrlKey||e.metaKey)||e.altKey||e.key.toLowerCase()!=='z')return;
+ const tag=e.target?.tagName?.toLowerCase();
+ if(['input','textarea'].includes(tag)||e.target?.isContentEditable)return;
+ e.preventDefault();if(e.shiftKey)redoHistory();else undoHistory();
+});
+const trackedClicks=new Set(['addCube','addSphere','addPillar','removeObject','duplicateObject','resetScene','applyPreset','resetView']);
+const trackedInputs=new Set(['posX','posY','posZ','scale','sceneName']);
+document.addEventListener('click',e=>{
+ const id=e.target?.closest?.('button')?.id;
+ if(!trackedClicks.has(id))return;
+ const before=historySnapshot();
+ queueMicrotask(()=>recordHistory(before));
+},true);
+document.addEventListener('input',e=>{
+ if(!trackedInputs.has(e.target?.id))return;
+ const before=historySnapshot();
+ queueMicrotask(()=>recordHistory(before));
+},true);
 
 if(typeof ResizeObserver!=='undefined')new ResizeObserver(draw).observe(canvas);else window.addEventListener('resize',draw);
 reset();notify('Demo ready. Offline mode.');
