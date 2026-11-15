@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 2</title>
+<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 3</title>
 <style>
 :root{color-scheme:dark;--bg:#111915;--panel:#1d2a23;--line:#3e5847;--gold:#e7c47b;--text:#f1f4ee;--muted:#b9cbbb}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
@@ -22,7 +22,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 @media(max-width:850px){main{grid-template-columns:1fr}canvas{height:350px}}
 </style></head><body>
 <header><h1>SS ITS Creative Studio — AR / VR &amp; Interactive</h1>
-<p class="muted">Module 13 · Batch 2 — WebGL Scene Engine & Object Controls</p></header>
+<p class="muted">Module 13 · Batch 3 — Scene Presets, Duplicate & Local Save</p></header>
 <main>
 <section class="panel" aria-labelledby="stageTitle">
 <h2 id="stageTitle">Interactive 3D-style Scene Preview</h2>
@@ -30,7 +30,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 <div class="toolbar">
 <button type="button" id="addCube">+ Cube</button><button type="button" id="addSphere">+ Sphere</button>
 <button type="button" id="addPillar">+ Pillar</button><button type="button" id="resetView">Reset View</button><button type="button" id="rendererMode" aria-pressed="false">Enable WebGL</button>
-<button type="button" id="removeObject">Remove Selected</button>
+<button type="button" id="removeObject">Remove Selected</button><button type="button" id="duplicateObject">Duplicate Selected</button>
 </div>
 <div class="stage"><canvas id="scene" tabindex="0" aria-label="Interactive projected scene; select objects using object list for accessible controls"></canvas><canvas id="webglScene" tabindex="0" hidden aria-label="WebGL 3D preview; use the object list for accessible selection"></canvas></div>
 <p class="hint small">WebGL is an optional real GPU 3D preview. Canvas fallback remains available. No WebXR headset session or camera AR.</p>
@@ -45,7 +45,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 <label for="scale">Selected size <output id="sizeVal">1</output></label><input id="scale" type="range" min=".3" max="2.5" step=".1" value="1">
 <div class="buttons"><button type="button" id="saveScene" class="primary">Export Scene JSON</button>
 <button type="button" id="importScene">Import Scene JSON</button><input type="file" id="fileInput" accept=".json,application/json" hidden></div>
-<div class="buttons"><button type="button" id="resetScene">Reset Demo</button><button type="button" id="qa">Run Local QA</button></div>
+<label for="scenePreset">Scene preset</label><select id="scenePreset"><option value="showroom">Showroom</option><option value="gallery">Gallery</option><option value="architecture">Architecture</option></select><div class="buttons"><button type="button" id="applyPreset">Load Preset</button><button type="button" id="saveLocal">Save Locally</button><button type="button" id="loadLocal">Load Local Save</button><button type="button" id="clearLocal">Clear Local Save</button></div><div class="buttons"><button type="button" id="resetScene">Reset Demo</button><button type="button" id="qa">Run Local QA</button></div>
 <p id="status" role="status" aria-live="polite"></p>
 <pre id="qaOutput" class="small" aria-label="Local QA results"></pre>
 </aside></main>
@@ -107,7 +107,7 @@ function sync(){
  for(const o of state.objects){const li=document.createElement('li'),name=document.createElement('span'),b=document.createElement('button');name.textContent=o.type+' · '+o.id;b.type='button';b.textContent='Select';b.setAttribute('aria-current',String(o.id===selected));b.addEventListener('click',()=>{selected=o.id;sync();draw()});li.append(name,b);list.append(li)}
  const o=current();
  for(const [id,key,out] of [['posX','x','xVal'],['posY','y','yVal'],['posZ','z','zVal'],['scale','size','sizeVal']]){$(id).disabled=!o;$(id).value=o?o[key]:id==='scale'?1:0;$(out).textContent=o?o[key].toFixed(1):'—'}
- $('removeObject').disabled=!o;
+ $('removeObject').disabled=!o;$('duplicateObject').disabled=!o;
 }
 function reset(){state={schema:'ssits.creative-studio.arvr-scene',version:1,name:'SS ITS Demo Scene',objects:[],view:{yaw:.55,pitch:.3,zoom:1}};nextId=1;add('cube',-1,.5,0);add('sphere',1,.6,-.4);add('pillar',0,.5,1.5);selected=state.objects[0].id;sync();draw()}
 for(const [id,type] of [['addCube','cube'],['addSphere','sphere'],['addPillar','pillar']])$(id).addEventListener('click',()=>{add(type);notify(type+' added')});
@@ -204,6 +204,28 @@ webglCanvas.addEventListener('wheel',e=>{e.preventDefault();state.view.zoom=clam
 webglCanvas.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','+','-','='].includes(e.key)){e.preventDefault();if(e.key==='ArrowLeft')state.view.yaw-=.12;else if(e.key==='ArrowRight')state.view.yaw+=.12;else state.view.zoom=clamp(state.view.zoom*(e.key==='-'?.9:1.1),.35,2.5);renderGL()}});
 webglCanvas.addEventListener('webglcontextlost',e=>{e.preventDefault();webglEnabled=false;gl=null;program=null;webglCanvas.hidden=true;canvas.hidden=false;$('rendererMode').textContent='Enable WebGL';$('rendererMode').setAttribute('aria-pressed','false');notify('WebGL context lost; canvas fallback active');draw()});
 webglCanvas.addEventListener('webglcontextrestored',()=>{gl=null;program=null;notify('WebGL restored. You can re-enable it.')});
+
+
+ // Batch 3: scene presets, object duplication, and explicit offline local save.
+ const localKey='ssits-creative-studio-module13-scene-v1';
+ function validateScene(raw){
+  if(!raw||raw.schema!=='ssits.creative-studio.arvr-scene'||raw.version!==1||typeof raw.name!=='string'||raw.name.length>100||!Array.isArray(raw.objects)||raw.objects.length>100||!raw.view)throw Error('Invalid scene schema');
+  const validNum=(n,a,b)=>typeof n==='number'&&Number.isFinite(n)&&n>=a&&n<=b;
+  if(!validNum(raw.view.yaw,-100,100)||!validNum(raw.view.pitch,-1.2,1.2)||!validNum(raw.view.zoom,.35,2.5))throw Error('Invalid camera values');
+  const seen=new Set();for(const o of raw.objects){if(typeof o.id!=='string'||!/^[a-zA-Z0-9_-]{1,40}$/.test(o.id)||seen.has(o.id)||!types.includes(o.type)||!validNum(o.x,-4,4)||!validNum(o.y,0,4)||!validNum(o.z,-4,4)||!validNum(o.size,.3,2.5))throw Error('Invalid object data');seen.add(o.id)}
+  return {schema:raw.schema,version:1,name:raw.name,objects:raw.objects.map(o=>({id:o.id,type:o.type,x:o.x,y:o.y,z:o.z,size:o.size})),view:{yaw:raw.view.yaw,pitch:raw.view.pitch,zoom:raw.view.zoom}};
+ }
+ function applyScene(raw){state=validateScene(raw);nextId=1;const ids=new Set(state.objects.map(o=>o.id));while(ids.has('obj-'+nextId))nextId++;selected=state.objects[0]?.id||null;sync();draw()}
+ $('duplicateObject').addEventListener('click',()=>{const o=current();if(!o)return;if(state.objects.length>=100){notify('Maximum 100 objects');return}const ids=new Set(state.objects.map(x=>x.id));while(ids.has('obj-'+nextId))nextId++;const copy={...o,id:'obj-'+nextId++,x:clamp(Math.round((o.x+.5)*10)/10,-4,4),z:clamp(Math.round((o.z+.5)*10)/10,-4,4)};state.objects.push(copy);selected=copy.id;sync();draw();notify('Object duplicated')});
+ const presets={
+  showroom:[['cube',-1,.5,0,1],['sphere',1,.6,-.4,1],['pillar',0,.5,1.5,1]],
+  gallery:[['pillar',-2,.5,0,1.2],['sphere',0,1,0,1.4],['pillar',2,.5,0,1.2]],
+  architecture:[['cube',-2,.5,0,1.8],['cube',0,.5,0,1.5],['pillar',2,.5,0,2],['sphere',0,2,-1,0.6]]
+ };
+ $('applyPreset').addEventListener('click',()=>{if(state.objects.length&&!confirm('Replace current scene with preset? Export or save your changes first.'))return;const name=$('scenePreset').value;const objects=presets[name];if(!objects){notify('Unknown preset');return}applyScene({schema:'ssits.creative-studio.arvr-scene',version:1,name:'SS ITS '+name+' preset',objects:objects.map((v,i)=>({id:'preset-'+(i+1),type:v[0],x:v[1],y:v[2],z:v[3],size:v[4]})),view:{yaw:.55,pitch:.3,zoom:1}});notify('Preset loaded: '+name)});
+ $('saveLocal').addEventListener('click',()=>{try{localStorage.setItem(localKey,JSON.stringify(validateScene(state)));notify('Saved in this browser only')}catch(e){notify('Local save unavailable: '+e.message)}});
+ $('loadLocal').addEventListener('click',()=>{try{const saved=localStorage.getItem(localKey);if(!saved){notify('No local save found');return}if(state.objects.length&&!confirm('Replace current scene with local save?'))return;applyScene(JSON.parse(saved));notify('Local scene loaded')}catch(e){notify('Local load failed: '+e.message)}});
+ $('clearLocal').addEventListener('click',()=>{try{localStorage.removeItem(localKey);notify('Local save cleared')}catch(e){notify('Local storage unavailable: '+e.message)}});
 
 if(typeof ResizeObserver!=='undefined')new ResizeObserver(draw).observe(canvas);else window.addEventListener('resize',draw);
 reset();notify('Demo ready. Offline mode.');
