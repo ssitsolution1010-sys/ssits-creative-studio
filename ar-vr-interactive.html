@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 9</title>
+<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 10</title>
 <style>
 :root{color-scheme:dark;--bg:#111915;--panel:#1d2a23;--line:#3e5847;--gold:#e7c47b;--text:#f1f4ee;--muted:#b9cbbb}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
@@ -22,7 +22,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 @media(max-width:850px){main{grid-template-columns:1fr}canvas{height:350px}}
 </style></head><body>
 <header><h1>SS ITS Creative Studio — AR / VR &amp; Interactive</h1>
-<p class="muted">Module 13 · Batch 9 — Object Lock & Editing Protection</p></header>
+<p class="muted">Module 13 · Batch 10 — Object Search & Scene Navigator</p></header>
 <main>
 <section class="panel" aria-labelledby="stageTitle">
 <h2 id="stageTitle">Interactive 3D-style Scene Preview</h2>
@@ -39,7 +39,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 <h2 id="toolsTitle">Scene Editor</h2>
 <section aria-label="Scene inspector" class="hint small"><strong>Scene Inspector</strong><p id="sceneStats" aria-live="polite">Loading scene statistics…</p><p id="selectionStats">No object selected</p></section>
 <label for="sceneName">Scene name</label><input id="sceneName" type="text" maxlength="100" value="SS ITS Demo Scene">
-<label for="objects">Objects (select one)</label><ul id="objects"></ul>
+<label for="objectSearch">Find objects by ID or type</label><input id="objectSearch" type="search" autocomplete="off" placeholder="Search cube, sphere, pillar or ID" aria-controls="objects"><p id="objectSearchCount" class="muted small" aria-live="polite"></p><label for="objects">Objects (select one)</label><ul id="objects"></ul>
 <label for="posX">Selected X <output id="xVal">0</output></label><input id="posX" type="range" min="-4" max="4" step=".1" value="0">
 <label for="posY">Selected Y <output id="yVal">0</output></label><input id="posY" type="range" min="0" max="4" step=".1" value="0">
 <label for="posZ">Selected Z <output id="zVal">0</output></label><input id="posZ" type="range" min="-4" max="4" step=".1" value="0">
@@ -122,7 +122,10 @@ function updateInspector(){
 function sync(){
  $('sceneName').value=state.name;
  const list=$('objects');list.replaceChildren();
- for(const o of state.objects){const li=document.createElement('li'),name=document.createElement('span'),b=document.createElement('button');name.textContent=o.type+' · '+o.id+(isVisible(o)?'':' · Hidden')+(isLocked(o)?' · Locked':'');b.type='button';b.textContent='Select';b.setAttribute('aria-current',String(o.id===selected));b.addEventListener('click',()=>{selected=o.id;sync();draw()});li.append(name,b);list.append(li)}
+ const query=$('objectSearch').value.trim().toLowerCase();
+ const matches=state.objects.filter(o=>(o.type+' '+o.id).toLowerCase().includes(query));
+ $('objectSearchCount').textContent=matches.length+' of '+state.objects.length+' objects shown';
+ for(const o of matches){const li=document.createElement('li'),name=document.createElement('span'),b=document.createElement('button');name.textContent=o.type+' · '+o.id+(isVisible(o)?'':' · Hidden')+(isLocked(o)?' · Locked':'');b.type='button';b.textContent='Select';b.setAttribute('aria-current',String(o.id===selected));b.addEventListener('click',()=>{selected=o.id;sync();draw()});li.append(name,b);list.append(li)}
  const o=current();
  for(const [id,key,out] of [['posX','x','xVal'],['posY','y','yVal'],['posZ','z','zVal'],['scale','size','sizeVal']]){$(id).disabled=!o||isLocked(o);$(id).value=o?o[key]:id==='scale'?1:0;$(out).textContent=o?o[key].toFixed(1):'—'}
  $('removeObject').disabled=!o||isLocked(o);$('duplicateObject').disabled=!o||isLocked(o);
@@ -254,6 +257,9 @@ webglCanvas.addEventListener('webglcontextrestored',()=>{gl=null;program=null;no
  $('saveLocal').addEventListener('click',()=>{try{localStorage.setItem(localKey,JSON.stringify(validateScene(state)));notify('Saved in this browser only')}catch(e){notify('Local save unavailable: '+e.message)}});
  $('loadLocal').addEventListener('click',()=>{try{const saved=localStorage.getItem(localKey);if(!saved){notify('No local save found');return}if(state.objects.length&&!confirm('Replace current scene with local save?'))return;applyScene(JSON.parse(saved));notify('Local scene loaded')}catch(e){notify('Local load failed: '+e.message)}});
  $('clearLocal').addEventListener('click',()=>{try{localStorage.removeItem(localKey);notify('Local save cleared')}catch(e){notify('Local storage unavailable: '+e.message)}});
+
+// Batch 10: list-only search; never mutates the scene, lock or visibility state.
+$('objectSearch').addEventListener('input',()=>sync());
 
 // Batch 9: lock controls affect editing only, not preview or exports.
 $('toggleLock').addEventListener('click',()=>{const o=current();if(!o)return;if(isLocked(o))lockedObjectIds.delete(o.id);else lockedObjectIds.add(o.id);sync();draw();notify(isLocked(o)?'Object locked':'Object unlocked')});
