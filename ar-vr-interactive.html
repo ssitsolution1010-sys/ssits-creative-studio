@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 27</title>
+<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 28</title>
 <style>
 :root{color-scheme:dark;--bg:#111915;--panel:#1d2a23;--line:#3e5847;--gold:#e7c47b;--text:#f1f4ee;--muted:#b9cbbb}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
@@ -22,7 +22,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 @media(max-width:850px){main{grid-template-columns:1fr}canvas{height:350px}}
 </style></head><body>
 <header><h1>SS ITS Creative Studio — AR / VR &amp; Interactive</h1>
-<p class="muted">Module 13 · Batch 27 — Read-Only Local Backup Preview</p></header>
+<p class="muted">Module 13 · Batch 28 — Selective Preset Restore</p></header>
 <main>
 <section class="panel" aria-labelledby="stageTitle">
 <h2 id="stageTitle">Interactive 3D-style Scene Preview</h2>
@@ -39,7 +39,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 <h2 id="toolsTitle">Scene Editor</h2>
 <section aria-label="Scene inspector" class="hint small"><strong>Scene Inspector</strong><p id="sceneStats" aria-live="polite">Loading scene statistics…</p><p id="selectionStats">No object selected</p></section>
 <label for="sceneName">Scene name</label><input id="sceneName" type="text" maxlength="100" value="SS ITS Demo Scene">
-<label for="objectSearch">Find objects by ID or type</label><input id="objectSearch" type="search" autocomplete="off" placeholder="Search cube, sphere, pillar or ID" aria-controls="objects"><div class="toolbar"><label for="objectTypeFilter">Type <select id="objectTypeFilter"><option value="all">All types</option><option value="cube">Cube</option><option value="sphere">Sphere</option><option value="pillar">Pillar</option></select></label><label for="objectStatusFilter">Status <select id="objectStatusFilter"><option value="all">All objects</option><option value="visible">Visible</option><option value="hidden">Hidden</option><option value="locked">Locked</option><option value="unlocked">Unlocked</option></select></label><label for="objectSort">Sort <select id="objectSort"><option value="original">Scene order</option><option value="id-asc">ID A–Z</option><option value="id-desc">ID Z–A</option></select></label></div><div class="toolbar"><button type="button" id="resetNavigator">Reset Navigator Filters</button><button type="button" id="clearSelection">Clear Selection</button><button type="button" id="previousObject">Previous Object</button><button type="button" id="nextObject">Next Object</button><button type="button" id="firstObject">First Object</button><button type="button" id="lastObject">Last Object</button></div><div class="toolbar" role="group" aria-label="Navigator filter presets"><label for="navigatorPresetName">Preset name <input id="navigatorPresetName" type="text" maxlength="40" placeholder="e.g. Locked cubes"></label><button type="button" id="saveNavigatorPreset">Save Preset</button><label for="navigatorPresetSelect">Saved presets <select id="navigatorPresetSelect"><option value="">Choose a preset</option></select></label><button type="button" id="applyNavigatorPreset" disabled>Apply Preset</button><button type="button" id="renameNavigatorPreset" disabled>Rename Preset</button><button type="button" id="updateNavigatorPreset" disabled>Update Filters</button><button type="button" id="deleteNavigatorPreset" disabled>Delete Preset</button><button type="button" id="exportNavigatorPresets" disabled>Export Presets JSON</button><button type="button" id="importNavigatorPresets">Import Presets JSON</button><button type="button" id="backupNavigatorPresets" disabled>Save Presets Locally</button><button type="button" id="inspectNavigatorPresetBackup">Check Local Backup</button><button type="button" id="previewNavigatorPresetBackup" aria-controls="navigatorPresetBackupPreview" aria-expanded="false">Preview Backup Presets</button><button type="button" id="restoreNavigatorPresets">Restore Local Presets</button><button type="button" id="clearNavigatorPresetBackup">Clear Preset Backup</button><input type="file" id="navigatorPresetFile" accept=".json,application/json" hidden></div><p id="navigatorPresetStatus" class="muted small" role="status" aria-live="polite">Presets are kept only until this page is reloaded.</p><div id="navigatorPresetBackupPreview" class="hint small" hidden aria-label="Local preset backup preview"></div><p id="objectSearchCount" class="muted small" aria-live="polite"></p><p id="navigatorSelectionStatus" class="muted small" aria-live="polite">No object selected</p><p id="navigatorPosition" class="muted small" aria-live="polite">No navigator position</p><p id="navigatorCounts" class="muted small" aria-live="polite">Loading object counts…</p><div class="toolbar" role="group" aria-label="Quick filter by object type"><button type="button" id="quickAllTypes">All Types (0)</button><button type="button" id="quickCube">Cubes (0)</button><button type="button" id="quickSphere">Spheres (0)</button><button type="button" id="quickPillar">Pillars (0)</button></div><div class="toolbar" role="group" aria-label="Quick filter by visibility and lock status"><button type="button" id="quickStatusAll">All Status (0)</button><button type="button" id="quickVisible">Visible (0)</button><button type="button" id="quickHidden">Hidden (0)</button><button type="button" id="quickLocked">Locked (0)</button><button type="button" id="quickUnlocked">Unlocked (0)</button></div><div id="navigatorEmptyState" class="hint small" role="status" hidden><p>No objects match the current search or filters.</p><button type="button" id="resetEmptyFilters">Clear Filters</button></div><button type="button" id="focusSelectedObject">Find Selected in List</button><p class="muted small" id="navigatorKeyboardHelp">Keyboard: focus a button in the object list, then use ↑/↓ to select previous/next or Home/End for first/last.</p><label for="objects">Objects (select one)</label><ul id="objects" aria-describedby="navigatorKeyboardHelp"></ul>
+<label for="objectSearch">Find objects by ID or type</label><input id="objectSearch" type="search" autocomplete="off" placeholder="Search cube, sphere, pillar or ID" aria-controls="objects"><div class="toolbar"><label for="objectTypeFilter">Type <select id="objectTypeFilter"><option value="all">All types</option><option value="cube">Cube</option><option value="sphere">Sphere</option><option value="pillar">Pillar</option></select></label><label for="objectStatusFilter">Status <select id="objectStatusFilter"><option value="all">All objects</option><option value="visible">Visible</option><option value="hidden">Hidden</option><option value="locked">Locked</option><option value="unlocked">Unlocked</option></select></label><label for="objectSort">Sort <select id="objectSort"><option value="original">Scene order</option><option value="id-asc">ID A–Z</option><option value="id-desc">ID Z–A</option></select></label></div><div class="toolbar"><button type="button" id="resetNavigator">Reset Navigator Filters</button><button type="button" id="clearSelection">Clear Selection</button><button type="button" id="previousObject">Previous Object</button><button type="button" id="nextObject">Next Object</button><button type="button" id="firstObject">First Object</button><button type="button" id="lastObject">Last Object</button></div><div class="toolbar" role="group" aria-label="Navigator filter presets"><label for="navigatorPresetName">Preset name <input id="navigatorPresetName" type="text" maxlength="40" placeholder="e.g. Locked cubes"></label><button type="button" id="saveNavigatorPreset">Save Preset</button><label for="navigatorPresetSelect">Saved presets <select id="navigatorPresetSelect"><option value="">Choose a preset</option></select></label><button type="button" id="applyNavigatorPreset" disabled>Apply Preset</button><button type="button" id="renameNavigatorPreset" disabled>Rename Preset</button><button type="button" id="updateNavigatorPreset" disabled>Update Filters</button><button type="button" id="deleteNavigatorPreset" disabled>Delete Preset</button><button type="button" id="exportNavigatorPresets" disabled>Export Presets JSON</button><button type="button" id="importNavigatorPresets">Import Presets JSON</button><button type="button" id="backupNavigatorPresets" disabled>Save Presets Locally</button><button type="button" id="inspectNavigatorPresetBackup">Check Local Backup</button><button type="button" id="previewNavigatorPresetBackup" aria-controls="navigatorPresetBackupPreview" aria-expanded="false">Preview Backup Presets</button><label for="navigatorBackupPresetSelect">Backup preset <select id="navigatorBackupPresetSelect"><option value="">Choose a backup preset</option></select></label><button type="button" id="restoreSelectedNavigatorPreset" disabled>Restore Selected</button><button type="button" id="restoreNavigatorPresets">Restore Local Presets</button><button type="button" id="clearNavigatorPresetBackup">Clear Preset Backup</button><input type="file" id="navigatorPresetFile" accept=".json,application/json" hidden></div><p id="navigatorPresetStatus" class="muted small" role="status" aria-live="polite">Presets are kept only until this page is reloaded.</p><div id="navigatorPresetBackupPreview" class="hint small" hidden aria-label="Local preset backup preview"></div><p id="objectSearchCount" class="muted small" aria-live="polite"></p><p id="navigatorSelectionStatus" class="muted small" aria-live="polite">No object selected</p><p id="navigatorPosition" class="muted small" aria-live="polite">No navigator position</p><p id="navigatorCounts" class="muted small" aria-live="polite">Loading object counts…</p><div class="toolbar" role="group" aria-label="Quick filter by object type"><button type="button" id="quickAllTypes">All Types (0)</button><button type="button" id="quickCube">Cubes (0)</button><button type="button" id="quickSphere">Spheres (0)</button><button type="button" id="quickPillar">Pillars (0)</button></div><div class="toolbar" role="group" aria-label="Quick filter by visibility and lock status"><button type="button" id="quickStatusAll">All Status (0)</button><button type="button" id="quickVisible">Visible (0)</button><button type="button" id="quickHidden">Hidden (0)</button><button type="button" id="quickLocked">Locked (0)</button><button type="button" id="quickUnlocked">Unlocked (0)</button></div><div id="navigatorEmptyState" class="hint small" role="status" hidden><p>No objects match the current search or filters.</p><button type="button" id="resetEmptyFilters">Clear Filters</button></div><button type="button" id="focusSelectedObject">Find Selected in List</button><p class="muted small" id="navigatorKeyboardHelp">Keyboard: focus a button in the object list, then use ↑/↓ to select previous/next or Home/End for first/last.</p><label for="objects">Objects (select one)</label><ul id="objects" aria-describedby="navigatorKeyboardHelp"></ul>
 <label for="posX">Selected X <output id="xVal">0</output></label><input id="posX" type="range" min="-4" max="4" step=".1" value="0">
 <label for="posY">Selected Y <output id="yVal">0</output></label><input id="posY" type="range" min="0" max="4" step=".1" value="0">
 <label for="posZ">Selected Z <output id="zVal">0</output></label><input id="posZ" type="range" min="-4" max="4" step=".1" value="0">
@@ -417,12 +417,53 @@ function renderNavigatorPresetBackupPreview(){
   container.replaceChildren(heading,list);
   container.hidden=false;button.setAttribute('aria-expanded','true');
   $('navigatorPresetStatus').textContent='Local backup preview opened.';
+  refreshNavigatorBackupPresetOptions();
  }catch(err){
   container.hidden=true;container.replaceChildren();button.setAttribute('aria-expanded','false');
   $('navigatorPresetStatus').textContent='Backup preview rejected: '+err.message;
  }
 }
 $('previewNavigatorPresetBackup').addEventListener('click',renderNavigatorPresetBackupPreview);
+// Batch 28: choose a single validated backup preset; no overwrite of session entries.
+function refreshNavigatorBackupPresetOptions(){
+ const select=$('navigatorBackupPresetSelect'),prior=select.value;
+ select.replaceChildren(new Option('Choose a backup preset',''));
+ try{
+  const raw=localStorage.getItem(navigatorPresetBackupKey);
+  if(raw!==null){
+   if(raw.length>65536)throw Error('Stored backup exceeds 64 KB');
+   const presets=validateNavigatorPresetFile(JSON.parse(raw));
+   for(let i=0;i<presets.length;i++)select.add(new Option(presets[i].name,String(i)));
+  }
+  select.value=[...select.options].some(o=>o.value===prior)?prior:'';
+  $('restoreSelectedNavigatorPreset').disabled=select.value==='';
+ }catch(err){
+  $('restoreSelectedNavigatorPreset').disabled=true;
+  $('navigatorPresetStatus').textContent='Backup preset selection failed: '+err.message;
+ }
+}
+$('navigatorBackupPresetSelect').addEventListener('change',()=>{
+ $('restoreSelectedNavigatorPreset').disabled=$('navigatorBackupPresetSelect').value==='';
+});
+$('restoreSelectedNavigatorPreset').addEventListener('click',()=>{
+ try{
+  const raw=localStorage.getItem(navigatorPresetBackupKey);
+  if(raw===null)throw Error('No local backup found');
+  if(raw.length>65536)throw Error('Stored backup exceeds 64 KB');
+  const presets=validateNavigatorPresetFile(JSON.parse(raw));
+  const index=Number($('navigatorBackupPresetSelect').value);
+  if(!Number.isInteger(index)||index<0||index>=presets.length)throw Error('Choose a valid backup preset');
+  const preset=presets[index];
+  if([...navigatorPresets.values()].some(p=>p.name.trim().toLocaleLowerCase()===preset.name.toLocaleLowerCase()))throw Error('A preset with this name already exists');
+  if(navigatorPresets.size>=10)throw Error('Maximum 10 presets per session');
+  const id='preset-'+(++navigatorPresetCounter);
+  navigatorPresets.set(id,preset);
+  syncNavigatorPresetControls();
+  $('navigatorPresetSelect').value=id;
+  syncNavigatorPresetControls();
+  $('navigatorPresetStatus').textContent='Restored selected preset: '+preset.name;
+ }catch(err){$('navigatorPresetStatus').textContent='Selected preset restore rejected: '+err.message}
+});
 function navigatorPresetPayload(){
  return {schema:navigatorPresetSchema,version:1,presets:[...navigatorPresets.values()].map(p=>({name:p.name,query:p.query,type:p.type,status:p.status,sort:p.sort}))};
 }
@@ -431,6 +472,7 @@ $('backupNavigatorPresets').addEventListener('click',()=>{
  try{
   localStorage.setItem(navigatorPresetBackupKey,JSON.stringify(navigatorPresetPayload()));
   $('navigatorPresetStatus').textContent='Saved '+navigatorPresets.size+' presets locally in this browser.';
+  refreshNavigatorBackupPresetOptions();
  }catch(err){$('navigatorPresetStatus').textContent='Local preset backup failed: browser storage unavailable.'}
 });
 $('restoreNavigatorPresets').addEventListener('click',()=>{
@@ -453,9 +495,11 @@ $('clearNavigatorPresetBackup').addEventListener('click',()=>{
   if(!confirm('Clear the browser-local preset backup? Current session presets will remain.'))return;
   localStorage.removeItem(navigatorPresetBackupKey);
   $('navigatorPresetStatus').textContent='Local preset backup cleared; session presets unchanged.';
+  refreshNavigatorBackupPresetOptions();
  }catch(err){$('navigatorPresetStatus').textContent='Unable to clear browser-local preset backup.'}
 });
 
+refreshNavigatorBackupPresetOptions();
 // Batch 21: status shortcuts reuse existing status filtering; no visibility/lock mutation.
 for(const [id,status] of [['quickStatusAll','all'],['quickVisible','visible'],['quickHidden','hidden'],['quickLocked','locked'],['quickUnlocked','unlocked']]){
  $(id).addEventListener('click',()=>{$('objectStatusFilter').value=status;sync()});
