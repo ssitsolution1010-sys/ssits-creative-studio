@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 9,
+  "batch_count": 10,
   "batches": [
     {
       "module": 13,
@@ -222,8 +222,31 @@
         "Lock/unlock is not itself undoable",
         "Browser regression testing pending"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 10,
+      "name": "Object Search & Scene Navigator",
+      "implemented": [
+        "Search object list by case-insensitive ID or object type",
+        "Live filtered count without changing scene objects",
+        "Select objects from filtered results",
+        "Preserve selection, locks, visibility, Canvas/WebGL rendering and saved scene format",
+        "Clear search to restore full object list"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_search_input_id": "PASS",
+        "cumulative_audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Search matches only object ID and type, not coordinates",
+        "Manual browser QA and regression testing required"
+      ]
     }
   ],
-  "overall_status": "Batch 9 development committed; manual browser QA pending",
-  "note": "Batches 1–9 cumulative. Batch 8 browser tests reported PASS by user; Batch 9 browser QA pending."
+  "overall_status": "Batch 10 development committed; manual browser QA pending",
+  "note": "Batches 1–10 cumulative. Batch 9 browser regression tests reported PASS by user; Batch 10 browser QA pending."
 }
