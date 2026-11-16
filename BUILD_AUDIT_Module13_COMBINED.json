@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 18,
+  "batch_count": 19,
   "batches": [
     {
       "module": 13,
@@ -430,8 +430,31 @@
         "Position counts filtered navigator entries, not scene depth",
         "Manual browser regression QA required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 19,
+      "name": "Object Counts & Selection Summary",
+      "implemented": [
+        "Read-only total object count in Scene Navigator",
+        "Visible and hidden object counts based on current session visibility state",
+        "Locked object count based on current session lock state",
+        "Filtered object count based on current search, type, status and sorting selection",
+        "Counts update when objects, filters, visibility or lock state change; no scene schema changes"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_navigator_counts_id": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Counts reflect current in-memory scene/session and do not persist lock or visibility state",
+        "Manual browser and regression QA required"
+      ]
     }
   ],
-  "overall_status": "Batch 18 development committed; manual browser QA pending",
-  "note": "Batches 1–18 cumulative. Batch 17 browser tests reported PASS by user; Batch 18 QA pending."
+  "overall_status": "Batch 19 development committed; manual browser QA pending",
+  "note": "Batches 1–19 cumulative. Batch 18 browser tests reported PASS by user; Batch 19 QA pending."
 }
