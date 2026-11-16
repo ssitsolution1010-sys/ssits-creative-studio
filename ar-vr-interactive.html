@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 12</title>
+<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 13</title>
 <style>
 :root{color-scheme:dark;--bg:#111915;--panel:#1d2a23;--line:#3e5847;--gold:#e7c47b;--text:#f1f4ee;--muted:#b9cbbb}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
@@ -22,7 +22,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 @media(max-width:850px){main{grid-template-columns:1fr}canvas{height:350px}}
 </style></head><body>
 <header><h1>SS ITS Creative Studio — AR / VR &amp; Interactive</h1>
-<p class="muted">Module 13 · Batch 12 — Scene Navigator Quick Actions</p></header>
+<p class="muted">Module 13 · Batch 13 — Navigator Reset & Selection Tools</p></header>
 <main>
 <section class="panel" aria-labelledby="stageTitle">
 <h2 id="stageTitle">Interactive 3D-style Scene Preview</h2>
@@ -39,7 +39,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 <h2 id="toolsTitle">Scene Editor</h2>
 <section aria-label="Scene inspector" class="hint small"><strong>Scene Inspector</strong><p id="sceneStats" aria-live="polite">Loading scene statistics…</p><p id="selectionStats">No object selected</p></section>
 <label for="sceneName">Scene name</label><input id="sceneName" type="text" maxlength="100" value="SS ITS Demo Scene">
-<label for="objectSearch">Find objects by ID or type</label><input id="objectSearch" type="search" autocomplete="off" placeholder="Search cube, sphere, pillar or ID" aria-controls="objects"><div class="toolbar"><label for="objectTypeFilter">Type <select id="objectTypeFilter"><option value="all">All types</option><option value="cube">Cube</option><option value="sphere">Sphere</option><option value="pillar">Pillar</option></select></label><label for="objectStatusFilter">Status <select id="objectStatusFilter"><option value="all">All objects</option><option value="visible">Visible</option><option value="hidden">Hidden</option><option value="locked">Locked</option><option value="unlocked">Unlocked</option></select></label><label for="objectSort">Sort <select id="objectSort"><option value="original">Scene order</option><option value="id-asc">ID A–Z</option><option value="id-desc">ID Z–A</option></select></label></div><p id="objectSearchCount" class="muted small" aria-live="polite"></p><label for="objects">Objects (select one)</label><ul id="objects"></ul>
+<label for="objectSearch">Find objects by ID or type</label><input id="objectSearch" type="search" autocomplete="off" placeholder="Search cube, sphere, pillar or ID" aria-controls="objects"><div class="toolbar"><label for="objectTypeFilter">Type <select id="objectTypeFilter"><option value="all">All types</option><option value="cube">Cube</option><option value="sphere">Sphere</option><option value="pillar">Pillar</option></select></label><label for="objectStatusFilter">Status <select id="objectStatusFilter"><option value="all">All objects</option><option value="visible">Visible</option><option value="hidden">Hidden</option><option value="locked">Locked</option><option value="unlocked">Unlocked</option></select></label><label for="objectSort">Sort <select id="objectSort"><option value="original">Scene order</option><option value="id-asc">ID A–Z</option><option value="id-desc">ID Z–A</option></select></label></div><div class="toolbar"><button type="button" id="resetNavigator">Reset Navigator Filters</button><button type="button" id="clearSelection">Clear Selection</button></div><p id="objectSearchCount" class="muted small" aria-live="polite"></p><label for="objects">Objects (select one)</label><ul id="objects"></ul>
 <label for="posX">Selected X <output id="xVal">0</output></label><input id="posX" type="range" min="-4" max="4" step=".1" value="0">
 <label for="posY">Selected Y <output id="yVal">0</output></label><input id="posY" type="range" min="0" max="4" step=".1" value="0">
 <label for="posZ">Selected Z <output id="zVal">0</output></label><input id="posZ" type="range" min="-4" max="4" step=".1" value="0">
@@ -136,6 +136,7 @@ function sync(){
  if(sort==='id-asc')matches.sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true}));
  if(sort==='id-desc')matches.sort((a,b)=>b.id.localeCompare(a.id,undefined,{numeric:true}));
  $('objectSearchCount').textContent=matches.length+' of '+state.objects.length+' objects shown';
+ $('clearSelection').disabled=!selected;
  for(const o of matches){const li=document.createElement('li'),name=document.createElement('span'),b=document.createElement('button');name.textContent=o.type+' · '+o.id+(isVisible(o)?'':' · Hidden')+(isLocked(o)?' · Locked':'');b.type='button';b.textContent='Select';b.setAttribute('aria-current',String(o.id===selected));b.addEventListener('click',()=>{selected=o.id;sync();draw()});const visibility=document.createElement('button'),lock=document.createElement('button');
  visibility.type='button';visibility.textContent=isVisible(o)?'Hide':'Show';visibility.setAttribute('aria-label',(isVisible(o)?'Hide ':'Show ')+o.id);
  visibility.addEventListener('click',()=>{if(isVisible(o))hiddenObjectIds.add(o.id);else hiddenObjectIds.delete(o.id);sync();draw();notify(isVisible(o)?'Object visible':'Object hidden')});
@@ -273,6 +274,13 @@ webglCanvas.addEventListener('webglcontextrestored',()=>{gl=null;program=null;no
  $('saveLocal').addEventListener('click',()=>{try{localStorage.setItem(localKey,JSON.stringify(validateScene(state)));notify('Saved in this browser only')}catch(e){notify('Local save unavailable: '+e.message)}});
  $('loadLocal').addEventListener('click',()=>{try{const saved=localStorage.getItem(localKey);if(!saved){notify('No local save found');return}if(state.objects.length&&!confirm('Replace current scene with local save?'))return;applyScene(JSON.parse(saved));notify('Local scene loaded')}catch(e){notify('Local load failed: '+e.message)}});
  $('clearLocal').addEventListener('click',()=>{try{localStorage.removeItem(localKey);notify('Local save cleared')}catch(e){notify('Local storage unavailable: '+e.message)}});
+
+// Batch 13: navigation reset and selection clear do not mutate scene objects.
+$('resetNavigator').addEventListener('click',()=>{
+ $('objectSearch').value='';$('objectTypeFilter').value='all';$('objectStatusFilter').value='all';$('objectSort').value='original';
+ sync();notify('Navigator filters reset');
+});
+$('clearSelection').addEventListener('click',()=>{selected=null;sync();draw();notify('Selection cleared')});
 
 // Batch 10: list-only search; never mutates the scene, lock or visibility state.
 $('objectSearch').addEventListener('input',()=>sync());
