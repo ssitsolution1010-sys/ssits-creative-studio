@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 5,
+  "batch_count": 6,
   "batches": [
     {
       "module": 13,
@@ -128,8 +128,30 @@
         "Top view pitch is limited to the existing 1.2 radian camera clamp",
         "Manual browser regression QA still required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 6,
+      "name": "Read-only Scene Inspector & Statistics",
+      "implemented": [
+        "Live object count grouped by cube, sphere and pillar",
+        "Selected object ID, type, position and scale readout",
+        "Canvas or WebGL renderer mode indicator",
+        "Read-only inspector preserves scene schema, local save, JSON import/export and Undo/Redo"
+      ],
+      "static_checks": {
+        "inspector_markup_present": "PASS",
+        "inspector_update_wired_to_draw_and_sync": "PASS",
+        "cumulative_audit_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Browser interaction and renderer mode toggling require manual QA",
+        "Statistics are for current in-browser scene only"
+      ]
     }
   ],
-  "overall_status": "Batch 5 development committed; manual browser QA pending",
-  "note": "Batches 1–5 cumulative; source/static checks do not imply production readiness."
+  "overall_status": "Batch 6 development committed; manual browser QA pending",
+  "note": "Batches 1–6 cumulative; Batch 5 browser QA reported PASS by user; Batch 6 not yet browser tested."
 }
