@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 6,
+  "batch_count": 7,
   "batches": [
     {
       "module": 13,
@@ -150,8 +150,32 @@
         "Browser interaction and renderer mode toggling require manual QA",
         "Statistics are for current in-browser scene only"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 7,
+      "name": "Session Camera Bookmark & Restore",
+      "implemented": [
+        "Bookmark current camera yaw, pitch and zoom",
+        "Restore saved camera viewpoint without changing scene objects",
+        "Restore action participates in existing Undo/Redo history",
+        "Restore disabled until bookmark exists",
+        "No changes to scene JSON schema or local save"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_bookmark_button_ids": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Bookmark is in-memory and clears on reload",
+        "Only one bookmark is supported",
+        "Manual Canvas/WebGL regression testing required"
+      ]
     }
   ],
-  "overall_status": "Batch 6 development committed; manual browser QA pending",
-  "note": "Batches 1–6 cumulative; Batch 5 browser QA reported PASS by user; Batch 6 not yet browser tested."
+  "overall_status": "Batch 7 development committed; manual browser QA pending",
+  "note": "Batches 1–7 cumulative. Batch 6 browser tests reported PASS by user; Batch 7 deployment and browser QA pending."
 }
