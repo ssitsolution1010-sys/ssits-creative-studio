@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 11</title>
+<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 12</title>
 <style>
 :root{color-scheme:dark;--bg:#111915;--panel:#1d2a23;--line:#3e5847;--gold:#e7c47b;--text:#f1f4ee;--muted:#b9cbbb}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
@@ -22,7 +22,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 @media(max-width:850px){main{grid-template-columns:1fr}canvas{height:350px}}
 </style></head><body>
 <header><h1>SS ITS Creative Studio — AR / VR &amp; Interactive</h1>
-<p class="muted">Module 13 · Batch 11 — Scene Navigator Filters & Sorting</p></header>
+<p class="muted">Module 13 · Batch 12 — Scene Navigator Quick Actions</p></header>
 <main>
 <section class="panel" aria-labelledby="stageTitle">
 <h2 id="stageTitle">Interactive 3D-style Scene Preview</h2>
@@ -136,7 +136,12 @@ function sync(){
  if(sort==='id-asc')matches.sort((a,b)=>a.id.localeCompare(b.id,undefined,{numeric:true}));
  if(sort==='id-desc')matches.sort((a,b)=>b.id.localeCompare(a.id,undefined,{numeric:true}));
  $('objectSearchCount').textContent=matches.length+' of '+state.objects.length+' objects shown';
- for(const o of matches){const li=document.createElement('li'),name=document.createElement('span'),b=document.createElement('button');name.textContent=o.type+' · '+o.id+(isVisible(o)?'':' · Hidden')+(isLocked(o)?' · Locked':'');b.type='button';b.textContent='Select';b.setAttribute('aria-current',String(o.id===selected));b.addEventListener('click',()=>{selected=o.id;sync();draw()});li.append(name,b);list.append(li)}
+ for(const o of matches){const li=document.createElement('li'),name=document.createElement('span'),b=document.createElement('button');name.textContent=o.type+' · '+o.id+(isVisible(o)?'':' · Hidden')+(isLocked(o)?' · Locked':'');b.type='button';b.textContent='Select';b.setAttribute('aria-current',String(o.id===selected));b.addEventListener('click',()=>{selected=o.id;sync();draw()});const visibility=document.createElement('button'),lock=document.createElement('button');
+ visibility.type='button';visibility.textContent=isVisible(o)?'Hide':'Show';visibility.setAttribute('aria-label',(isVisible(o)?'Hide ':'Show ')+o.id);
+ visibility.addEventListener('click',()=>{if(isVisible(o))hiddenObjectIds.add(o.id);else hiddenObjectIds.delete(o.id);sync();draw();notify(isVisible(o)?'Object visible':'Object hidden')});
+ lock.type='button';lock.textContent=isLocked(o)?'Unlock':'Lock';lock.setAttribute('aria-label',(isLocked(o)?'Unlock ':'Lock ')+o.id);
+ lock.addEventListener('click',()=>{if(isLocked(o))lockedObjectIds.delete(o.id);else lockedObjectIds.add(o.id);sync();draw();notify(isLocked(o)?'Object locked':'Object unlocked')});
+ li.append(name,b,visibility,lock);list.append(li)}
  const o=current();
  for(const [id,key,out] of [['posX','x','xVal'],['posY','y','yVal'],['posZ','z','zVal'],['scale','size','sizeVal']]){$(id).disabled=!o||isLocked(o);$(id).value=o?o[key]:id==='scale'?1:0;$(out).textContent=o?o[key].toFixed(1):'—'}
  $('removeObject').disabled=!o||isLocked(o);$('duplicateObject').disabled=!o||isLocked(o);
