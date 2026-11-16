@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 4</title>
+<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 5</title>
 <style>
 :root{color-scheme:dark;--bg:#111915;--panel:#1d2a23;--line:#3e5847;--gold:#e7c47b;--text:#f1f4ee;--muted:#b9cbbb}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
@@ -22,14 +22,14 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 @media(max-width:850px){main{grid-template-columns:1fr}canvas{height:350px}}
 </style></head><body>
 <header><h1>SS ITS Creative Studio — AR / VR &amp; Interactive</h1>
-<p class="muted">Module 13 · Batch 4 — Undo / Redo Scene History</p></header>
+<p class="muted">Module 13 · Batch 5 — Camera View Presets</p></header>
 <main>
 <section class="panel" aria-labelledby="stageTitle">
 <h2 id="stageTitle">Interactive 3D-style Scene Preview</h2>
 <p class="small muted">Drag to orbit · Scroll/pinch to zoom · Click an object to select · Keyboard: ← → rotate, + − zoom</p>
 <div class="toolbar">
 <button type="button" id="addCube">+ Cube</button><button type="button" id="addSphere">+ Sphere</button>
-<button type="button" id="addPillar">+ Pillar</button><button type="button" id="resetView">Reset View</button><button type="button" id="rendererMode" aria-pressed="false">Enable WebGL</button>
+<button type="button" id="addPillar">+ Pillar</button><button type="button" id="resetView">Reset View</button><button type="button" id="viewFront">Front View</button><button type="button" id="viewSide">Side View</button><button type="button" id="viewTop">Top View</button><button type="button" id="rendererMode" aria-pressed="false">Enable WebGL</button>
 <button type="button" id="removeObject">Remove Selected</button><button type="button" id="duplicateObject">Duplicate Selected</button><button type="button" id="undoEdit" disabled>Undo</button><button type="button" id="redoEdit" disabled>Redo</button>
 </div>
 <div class="stage"><canvas id="scene" tabindex="0" aria-label="Interactive projected scene; select objects using object list for accessible controls"></canvas><canvas id="webglScene" tabindex="0" hidden aria-label="WebGL 3D preview; use the object list for accessible selection"></canvas></div>
@@ -113,6 +113,11 @@ function reset(){state={schema:'ssits.creative-studio.arvr-scene',version:1,name
 for(const [id,type] of [['addCube','cube'],['addSphere','sphere'],['addPillar','pillar']])$(id).addEventListener('click',()=>{add(type);notify(type+' added')});
 $('removeObject').addEventListener('click',()=>{state.objects=state.objects.filter(o=>o.id!==selected);selected=state.objects[0]?.id||null;sync();draw();notify('Object removed')});
 $('resetView').addEventListener('click',()=>{state.view={yaw:.55,pitch:.3,zoom:1};draw()});
+// Batch 5: camera viewpoint presets; only the view state changes.
+const cameraPresets={viewFront:{yaw:0,pitch:0},viewSide:{yaw:Math.PI/2,pitch:0},viewTop:{yaw:0,pitch:1.2}};
+for(const [id,angles] of Object.entries(cameraPresets)){
+ $(id).addEventListener('click',()=>{state.view={...state.view,...angles};draw();notify(id.replace('view','')+' camera view active')});
+}
 $('resetScene').addEventListener('click',()=>{if(confirm('Reset the scene and discard current edits?')){reset();notify('Demo restored')}});
 $('sceneName').addEventListener('input',e=>{state.name=e.target.value.slice(0,100)});
 for(const [id,key] of [['posX','x'],['posY','y'],['posZ','z'],['scale','size']])$(id).addEventListener('input',e=>{const o=current();if(o){o[key]=Number(e.target.value);sync();draw()}});
@@ -259,7 +264,7 @@ document.addEventListener('keydown',e=>{
  if(['input','textarea'].includes(tag)||e.target?.isContentEditable)return;
  e.preventDefault();if(e.shiftKey)redoHistory();else undoHistory();
 });
-const trackedClicks=new Set(['addCube','addSphere','addPillar','removeObject','duplicateObject','resetScene','applyPreset','resetView']);
+const trackedClicks=new Set(['addCube','addSphere','addPillar','removeObject','duplicateObject','resetScene','applyPreset','resetView','viewFront','viewSide','viewTop']);
 const trackedInputs=new Set(['posX','posY','posZ','scale','sceneName']);
 document.addEventListener('click',e=>{
  const id=e.target?.closest?.('button')?.id;
