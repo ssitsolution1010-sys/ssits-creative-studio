@@ -670,16 +670,18 @@
         "source_controls_present": "PASS",
         "audit_json_parse": "PASS"
       },
-      "automated_browser_qa": "NOT RUN",
+      "automated_browser_qa": "TEST SUITE COMMITTED — EXECUTION PENDING",
       "manual_browser_qa": "PENDING",
       "deployment": "NOT VERIFIED",
       "limitations": [
         "Restore is manual and local to the current browser",
         "Backup contents may change between selection and restore; validation repeats on restore",
         "Batches 25–28 browser regression remains pending"
-      ]
+      ],
+      "qa_suite": "tests/test_module13_presets.py (9 Playwright Chromium regression tests)",
+      "qa_workflow": ".github/workflows/module13-regression.yml"
     }
   ],
-  "overall_status": "Batch 28 committed to review branch; static checks PASS; browser regression pending",
-  "note": "Batches 1–28 cumulative. Batch 24 automated browser checks reported PASS; Batch 25–28 browser tests not run."
+  "overall_status": "Batch 28 code committed; browser regression suite and GitHub Actions workflow committed; execution pending",
+  "note": "Batches 1–28 cumulative. Nine regression tests for Batches 25–28 are committed; no run results yet. Manual browser acceptance and deployment pending."
 }
