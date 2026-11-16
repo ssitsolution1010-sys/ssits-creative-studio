@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 26,
+  "batch_count": 27,
   "batches": [
     {
       "module": 13,
@@ -627,8 +627,34 @@
         "Readiness status reflects the current session at time of inspection",
         "Manual browser QA required before release"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 27,
+      "name": "Read-Only Local Backup Preset Preview",
+      "implemented": [
+        "Preview stored preset names and their Search, Type, Status and Sort values before restoring",
+        "Mark preset names conflicting with current session presets",
+        "Render untrusted backup text using DOM textContent instead of HTML injection",
+        "Validate backup size and schema before displaying",
+        "Use accessible show/hide preview with aria-expanded; no session or backup mutations"
+      ],
+      "static_checks": {
+        "unique_html_ids": "PASS",
+        "preview_controls_present": "PASS",
+        "safe_text_rendering": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "automated_browser_qa": "NOT RUN",
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Browser localStorage may be restricted",
+        "Backup preview is read-only and does not resolve duplicate names",
+        "Batches 25–27 require browser regression QA before release"
+      ]
     }
   ],
-  "overall_status": "Batch 26 committed to development branch; static checks PASS; browser QA pending",
-  "note": "Batches 1–26 cumulative. Batch 24 automated QA 23/23 PASS in earlier review branch. Batches 25–26 browser QA pending."
+  "overall_status": "Batch 27 committed to development branch; structural checks PASS; browser QA pending",
+  "note": "Batches 1–27 cumulative; automated browser regression for Batches 25–27 remains pending."
 }
