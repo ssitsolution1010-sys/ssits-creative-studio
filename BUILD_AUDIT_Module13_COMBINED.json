@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 21,
+  "batch_count": 22,
   "batches": [
     {
       "module": 13,
@@ -499,8 +499,32 @@
         "Visibility and lock states remain session-only",
         "Quick status buttons only filter navigator entries; manual browser QA pending"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 22,
+      "name": "Scene Navigator Filter Presets",
+      "implemented": [
+        "Save up to ten named in-memory combinations of Search, Type, Status and Sort",
+        "Select and apply a saved preset to restore navigator filtering",
+        "Delete selected preset without altering current filters",
+        "Preset controls expose disabled states and accessible status messages",
+        "No scene data, export schema, rendering, history or database changes"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_preset_control_ids": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Presets are intentionally lost on page reload",
+        "Presets are not shared between users or browsers",
+        "Manual browser and regression QA required"
+      ]
     }
   ],
-  "overall_status": "Batch 21 development committed; manual browser QA pending",
-  "note": "Batches 1–21 cumulative. Batch 20 browser tests reported PASS by user; Batch 21 QA pending."
+  "overall_status": "Batch 22 development committed; manual browser QA pending",
+  "note": "Batches 1–22 cumulative. Batch 21 browser tests reported PASS by user; Batch 22 QA pending."
 }
