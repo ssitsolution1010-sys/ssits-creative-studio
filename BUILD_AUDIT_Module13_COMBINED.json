@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 22,
+  "batch_count": 23,
   "batches": [
     {
       "module": 13,
@@ -523,8 +523,31 @@
         "Presets are not shared between users or browsers",
         "Manual browser and regression QA required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 23,
+      "name": "Preset Rename & Update",
+      "implemented": [
+        "Rename an existing selected navigator filter preset using the preset name input",
+        "Update an existing preset with current Search, Type, Status and Sort settings",
+        "Preserve selected preset across rename",
+        "Disable rename and update actions when no preset is selected",
+        "Preserve 10-preset limit and in-memory session-only storage; scene objects and rendering untouched"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_preset_action_ids": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Preset changes are not persisted across page reload",
+        "Manual browser and regression QA required"
+      ]
     }
   ],
-  "overall_status": "Batch 22 development committed; manual browser QA pending",
-  "note": "Batches 1–22 cumulative. Batch 21 browser tests reported PASS by user; Batch 22 QA pending."
+  "overall_status": "Batch 23 development committed; manual browser QA pending",
+  "note": "Batches 1–23 cumulative. Batch 22 browser tests reported PASS by user; Batch 23 QA pending."
 }
