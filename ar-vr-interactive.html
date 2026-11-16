@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 6</title>
+<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 7</title>
 <style>
 :root{color-scheme:dark;--bg:#111915;--panel:#1d2a23;--line:#3e5847;--gold:#e7c47b;--text:#f1f4ee;--muted:#b9cbbb}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
@@ -22,14 +22,14 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 @media(max-width:850px){main{grid-template-columns:1fr}canvas{height:350px}}
 </style></head><body>
 <header><h1>SS ITS Creative Studio — AR / VR &amp; Interactive</h1>
-<p class="muted">Module 13 · Batch 6 — Scene Inspector & Statistics</p></header>
+<p class="muted">Module 13 · Batch 7 — Camera Bookmark & Restore</p></header>
 <main>
 <section class="panel" aria-labelledby="stageTitle">
 <h2 id="stageTitle">Interactive 3D-style Scene Preview</h2>
 <p class="small muted">Drag to orbit · Scroll/pinch to zoom · Click an object to select · Keyboard: ← → rotate, + − zoom</p>
 <div class="toolbar">
 <button type="button" id="addCube">+ Cube</button><button type="button" id="addSphere">+ Sphere</button>
-<button type="button" id="addPillar">+ Pillar</button><button type="button" id="resetView">Reset View</button><button type="button" id="viewFront">Front View</button><button type="button" id="viewSide">Side View</button><button type="button" id="viewTop">Top View</button><button type="button" id="rendererMode" aria-pressed="false">Enable WebGL</button>
+<button type="button" id="addPillar">+ Pillar</button><button type="button" id="resetView">Reset View</button><button type="button" id="viewFront">Front View</button><button type="button" id="viewSide">Side View</button><button type="button" id="viewTop">Top View</button><button type="button" id="bookmarkCamera">Bookmark Camera</button><button type="button" id="restoreCamera" disabled>Restore Camera</button><button type="button" id="rendererMode" aria-pressed="false">Enable WebGL</button>
 <button type="button" id="removeObject">Remove Selected</button><button type="button" id="duplicateObject">Duplicate Selected</button><button type="button" id="undoEdit" disabled>Undo</button><button type="button" id="redoEdit" disabled>Redo</button>
 </div>
 <div class="stage"><canvas id="scene" tabindex="0" aria-label="Interactive projected scene; select objects using object list for accessible controls"></canvas><canvas id="webglScene" tabindex="0" hidden aria-label="WebGL 3D preview; use the object list for accessible selection"></canvas></div>
@@ -276,7 +276,8 @@ document.addEventListener('keydown',e=>{
  if(['input','textarea'].includes(tag)||e.target?.isContentEditable)return;
  e.preventDefault();if(e.shiftKey)redoHistory();else undoHistory();
 });
-const trackedClicks=new Set(['addCube','addSphere','addPillar','removeObject','duplicateObject','resetScene','applyPreset','resetView','viewFront','viewSide','viewTop']);
+// Camera bookmark restore uses the existing Undo/Redo click history listener.
+const trackedClicks=new Set(['addCube','addSphere','addPillar','removeObject','duplicateObject','resetScene','applyPreset','resetView','viewFront','viewSide','viewTop','restoreCamera']);
 const trackedInputs=new Set(['posX','posY','posZ','scale','sceneName']);
 document.addEventListener('click',e=>{
  const id=e.target?.closest?.('button')?.id;
@@ -290,6 +291,19 @@ document.addEventListener('input',e=>{
  queueMicrotask(()=>recordHistory(before));
 },true);
 
+// Batch 7: session-only camera bookmark; no persistent scene schema changes.
+let cameraBookmark=null;
+$('bookmarkCamera').addEventListener('click',()=>{
+ cameraBookmark={yaw:state.view.yaw,pitch:state.view.pitch,zoom:state.view.zoom};
+ $('restoreCamera').disabled=false;
+ notify('Camera viewpoint bookmarked for this page session');
+});
+$('restoreCamera').addEventListener('click',()=>{
+ if(!cameraBookmark)return;
+ state.view={...cameraBookmark};
+ draw();
+ notify('Bookmarked camera viewpoint restored');
+});
 if(typeof ResizeObserver!=='undefined')new ResizeObserver(draw).observe(canvas);else window.addEventListener('resize',draw);
 reset();notify('Demo ready. Offline mode.');
 })();
