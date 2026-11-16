@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 14,
+  "batch_count": 15,
   "batches": [
     {
       "module": 13,
@@ -338,8 +338,31 @@
         "If no selected item is in filtered results, Next selects first and Previous selects last",
         "Manual browser and regression QA required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 15,
+      "name": "First & Last Object Navigation",
+      "implemented": [
+        "First Object and Last Object controls use current filtered and sorted navigator list",
+        "Buttons disable at list boundaries and when no objects match",
+        "Selection-only navigation updates inspector and scene preview",
+        "Existing Previous/Next, filters, search, visibility and locks preserved",
+        "No scene schema, database or JSON export changes"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_button_ids": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Navigation does not wrap around",
+        "Manual browser and regression QA required"
+      ]
     }
   ],
-  "overall_status": "Batch 14 development committed; manual browser QA pending",
-  "note": "Batches 1–14 cumulative. Batch 13 browser tests reported PASS by user; Batch 14 QA pending."
+  "overall_status": "Batch 15 development committed; manual browser QA pending",
+  "note": "Batches 1–15 cumulative. Batch 14 browser tests reported PASS by user; Batch 15 browser QA pending."
 }
