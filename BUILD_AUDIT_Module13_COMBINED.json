@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 13,
+  "batch_count": 14,
   "batches": [
     {
       "module": 13,
@@ -314,8 +314,32 @@
         "Clear Selection changes only active selection; it does not clear scene contents",
         "Manual browser and regression testing required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 14,
+      "name": "Previous & Next Object Navigation",
+      "implemented": [
+        "Previous and Next controls traverse current filtered and sorted navigator list",
+        "Navigation changes selection only and updates inspector and scene highlight",
+        "Navigation buttons disable at list boundaries or when list is empty",
+        "Works alongside existing search, type/status filters, sorting, Hide/Show and Lock/Unlock",
+        "No changes to scene schema, saved JSON, database or rendering algorithms"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_navigation_button_ids": "PASS",
+        "cumulative_audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Navigation uses current list order and does not wrap around",
+        "If no selected item is in filtered results, Next selects first and Previous selects last",
+        "Manual browser and regression QA required"
+      ]
     }
   ],
-  "overall_status": "Batch 13 development committed; manual browser QA pending",
-  "note": "Batches 1–13 cumulative. Batch 12 browser tests reported PASS by user; Batch 13 browser QA pending."
+  "overall_status": "Batch 14 development committed; manual browser QA pending",
+  "note": "Batches 1–14 cumulative. Batch 13 browser tests reported PASS by user; Batch 14 QA pending."
 }
