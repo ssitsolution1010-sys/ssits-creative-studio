@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 8,
+  "batch_count": 9,
   "batches": [
     {
       "module": 13,
@@ -198,8 +198,32 @@
         "Visibility changes are not individually undoable",
         "Manual browser QA and regression testing required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 9,
+      "name": "Session Object Lock & Editing Protection",
+      "implemented": [
+        "Lock and unlock selected object; Unlock All",
+        "Locked object remains selectable and visible but cannot be moved or scaled via sliders",
+        "Remove and Duplicate blocked for locked object at both UI and handler levels",
+        "Object list shows Locked marker",
+        "Lock state is session-only; no scene schema or database changes"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_lock_button_ids": "PASS",
+        "cumulative_audit_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Locks reset on scene load, reset, or undo/redo scene restoration",
+        "Lock/unlock is not itself undoable",
+        "Browser regression testing pending"
+      ]
     }
   ],
-  "overall_status": "Batch 8 development committed; manual browser QA pending",
-  "note": "Cumulative Batches 1–8; Batch 7 browser tests reported PASS by user; Batch 8 deployment and browser QA pending."
+  "overall_status": "Batch 9 development committed; manual browser QA pending",
+  "note": "Batches 1–9 cumulative. Batch 8 browser tests reported PASS by user; Batch 9 browser QA pending."
 }
