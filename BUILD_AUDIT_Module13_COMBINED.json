@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 7,
+  "batch_count": 8,
   "batches": [
     {
       "module": 13,
@@ -174,8 +174,32 @@
         "Only one bookmark is supported",
         "Manual Canvas/WebGL regression testing required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 8,
+      "name": "Session Object Visibility Controls",
+      "implemented": [
+        "Hide or show selected scene object without deletion",
+        "Show All restores hidden objects",
+        "Hidden objects omitted from Canvas and WebGL preview and canvas picking",
+        "Object list marks hidden objects; inspector shows visible count",
+        "Visibility state remains session-only; scene JSON schema and local storage unchanged"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_visibility_button_ids": "PASS",
+        "cumulative_audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Visibility is session-only and resets on scene reload or Undo/Redo scene restore",
+        "Visibility changes are not individually undoable",
+        "Manual browser QA and regression testing required"
+      ]
     }
   ],
-  "overall_status": "Batch 7 development committed; manual browser QA pending",
-  "note": "Batches 1–7 cumulative. Batch 6 browser tests reported PASS by user; Batch 7 deployment and browser QA pending."
+  "overall_status": "Batch 8 development committed; manual browser QA pending",
+  "note": "Cumulative Batches 1–8; Batch 7 browser tests reported PASS by user; Batch 8 deployment and browser QA pending."
 }
