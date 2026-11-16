@@ -1,6 +1,9 @@
 import json
 import unittest
 from pathlib import Path
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from functools import partial
+from threading import Thread
 from playwright.sync_api import sync_playwright
 
 HTML = Path(__file__).resolve().parents[1] / "ar-vr-interactive.html"
@@ -13,18 +16,24 @@ def payload(items):
 class Module13Presets(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        cls.server = ThreadingHTTPServer(('127.0.0.1',0),partial(SimpleHTTPRequestHandler,directory=str(HTML.parent)))
+        cls.thread = Thread(target=cls.server.serve_forever,daemon=True)
+        cls.thread.start()
+        cls.url = f'http://127.0.0.1:{cls.server.server_port}/{HTML.name}'
         cls.pw = sync_playwright().start()
         cls.browser = cls.pw.chromium.launch(headless=True)
     @classmethod
     def tearDownClass(cls):
         cls.browser.close()
         cls.pw.stop()
+        cls.server.shutdown()
+        cls.server.server_close()
     def setUp(self):
         self.context = self.browser.new_context()
         self.page = self.context.new_page()
         self.errors = []
         self.page.on("pageerror", lambda err: self.errors.append(str(err)))
-        self.page.goto(HTML.as_uri())
+        self.page.goto(self.url)
         self.assertEqual(self.page.locator("#objects li").count(), 3)
     def tearDown(self):
         self.assertFalse(self.errors, self.errors)
