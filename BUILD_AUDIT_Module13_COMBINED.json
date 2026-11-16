@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 24,
+  "batch_count": 25,
   "batches": [
     {
       "module": 13,
@@ -577,8 +577,33 @@
         "Navigator presets are session-only until explicitly exported",
         "Manual user acceptance and live deployment verification pending"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 25,
+      "name": "Explicit Navigator Preset Local Backup & Restore",
+      "implemented": [
+        "Explicit Save Presets Locally using browser localStorage",
+        "Explicit Restore Local Presets with Batch 24 schema and value validation",
+        "Atomic reject of duplicate names and restores exceeding 10 preset maximum",
+        "Clear Local Backup with confirmation while preserving current session presets",
+        "No automatic load, no scene schema changes, no server writes"
+      ],
+      "static_checks": {
+        "unique_html_ids": "PASS",
+        "new_controls_present": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "automated_browser_qa": "NOT RUN",
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "LocalStorage may be unavailable in private or restricted browsing",
+        "Local backups are device/browser specific",
+        "A duplicate name blocks the entire restore without changing session presets"
+      ]
     }
   ],
-  "overall_status": "Batch 24 committed to review branch; automated Chromium tests 23/23 PASS; manual QA and deployment pending",
-  "note": "Batches 1–24 cumulative. Batch 23 browser tests reported PASS by user; Batch 24 Playwright automated 23/23 PASS. Main branch unchanged."
+  "overall_status": "Batch 25 committed to review branch; static structural checks PASS; browser QA pending",
+  "note": "Batches 1–25 cumulative. Batch 24 automated Chromium tests reported 23/23 PASS in prior review branch. Batch 25 not yet browser tested."
 }
