@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 19,
+  "batch_count": 20,
   "batches": [
     {
       "module": 13,
@@ -453,8 +453,31 @@
         "Counts reflect current in-memory scene/session and do not persist lock or visibility state",
         "Manual browser and regression QA required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 20,
+      "name": "Object Type Breakdown & Quick Filters",
+      "implemented": [
+        "Live per-type Cube, Sphere and Pillar object counts",
+        "All Types quick filter with total object count",
+        "Type shortcut buttons synchronize existing type filter",
+        "Active type shortcut exposes aria-pressed state",
+        "Preserves search, status filter, sort, keyboard navigation and scene schema"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_quick_filter_ids": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Quick type shortcuts change only the Navigator filter, not scene contents",
+        "Manual browser and regression QA required"
+      ]
     }
   ],
-  "overall_status": "Batch 19 development committed; manual browser QA pending",
-  "note": "Batches 1–19 cumulative. Batch 18 browser tests reported PASS by user; Batch 19 QA pending."
+  "overall_status": "Batch 20 development committed; manual browser QA pending",
+  "note": "Batches 1–20 cumulative. Batch 19 browser tests reported PASS by user; Batch 20 QA pending."
 }
