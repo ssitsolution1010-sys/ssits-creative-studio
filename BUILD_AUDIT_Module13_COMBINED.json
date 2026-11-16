@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 16,
+  "batch_count": 17,
   "batches": [
     {
       "module": 13,
@@ -384,8 +384,31 @@
         "Find Selected scrolls the navigator entry, not the 3D camera",
         "Manual browser regression testing required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 17,
+      "name": "Scene Navigator Keyboard Shortcuts",
+      "implemented": [
+        "ArrowUp and ArrowDown navigate previous and next object from focused navigator buttons",
+        "Home and End select first and last object in current filtered and sorted list",
+        "Keyboard events scoped to object list, avoiding interference with form fields and canvas",
+        "Keyboard focus moves to selected object's Select button after navigation",
+        "Keyboard help text and accessible list description added"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_keyboard_help_id": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Keyboard navigation requires focus on a button inside object list",
+        "Manual browser and regression QA required"
+      ]
     }
   ],
-  "overall_status": "Batch 16 development committed; manual browser QA pending",
-  "note": "Batches 1–16 cumulative. Batch 15 browser tests reported PASS by user; Batch 16 browser QA pending."
+  "overall_status": "Batch 17 development committed; manual browser QA pending",
+  "note": "Batches 1–17 cumulative. Batch 16 browser tests reported PASS by user; Batch 17 QA pending."
 }
