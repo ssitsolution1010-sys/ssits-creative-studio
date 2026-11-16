@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 5</title>
+<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 6</title>
 <style>
 :root{color-scheme:dark;--bg:#111915;--panel:#1d2a23;--line:#3e5847;--gold:#e7c47b;--text:#f1f4ee;--muted:#b9cbbb}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
@@ -22,7 +22,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 @media(max-width:850px){main{grid-template-columns:1fr}canvas{height:350px}}
 </style></head><body>
 <header><h1>SS ITS Creative Studio — AR / VR &amp; Interactive</h1>
-<p class="muted">Module 13 · Batch 5 — Camera View Presets</p></header>
+<p class="muted">Module 13 · Batch 6 — Scene Inspector & Statistics</p></header>
 <main>
 <section class="panel" aria-labelledby="stageTitle">
 <h2 id="stageTitle">Interactive 3D-style Scene Preview</h2>
@@ -37,6 +37,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 </section>
 <aside class="panel" aria-labelledby="toolsTitle">
 <h2 id="toolsTitle">Scene Editor</h2>
+<section aria-label="Scene inspector" class="hint small"><strong>Scene Inspector</strong><p id="sceneStats" aria-live="polite">Loading scene statistics…</p><p id="selectionStats">No object selected</p></section>
 <label for="sceneName">Scene name</label><input id="sceneName" type="text" maxlength="100" value="SS ITS Demo Scene">
 <label for="objects">Objects (select one)</label><ul id="objects"></ul>
 <label for="posX">Selected X <output id="xVal">0</output></label><input id="posX" type="range" min="-4" max="4" step=".1" value="0">
@@ -75,6 +76,7 @@ function boxPoints(o){
  return [[-w,0,-w],[w,0,-w],[w,0,w],[-w,0,w],[-w,h,-w],[w,h,-w],[w,h,w],[-w,h,w]].map(p=>project(o.x+p[0],o.y+p[1],o.z+p[2]));
 }
 function draw(){
+ updateInspector();
  const dpr=Math.min(devicePixelRatio||1,2),w=canvas.clientWidth,h=canvas.clientHeight;
  if(!w||!h){if(webglEnabled)renderGL();return;}
  if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr)}
@@ -101,6 +103,15 @@ function draw(){
  ctx.fillStyle='#c1d4c5';ctx.font='12px system-ui';ctx.fillText('Canvas perspective preview · '+state.objects.length+' objects',14,22);
  if(webglEnabled)renderGL();
 }
+// Batch 6: read-only scene inspector (no scene schema changes).
+function updateInspector(){
+ const countByType={cube:0,sphere:0,pillar:0};
+ for(const obj of state.objects)if(Object.hasOwn(countByType,obj.type))countByType[obj.type]++;
+ const mode=webglEnabled?'WebGL':'Canvas';
+ $('sceneStats').textContent=state.objects.length+' objects · '+countByType.cube+' cubes · '+countByType.sphere+' spheres · '+countByType.pillar+' pillars · '+mode;
+ const obj=current();
+ $('selectionStats').textContent=obj?'Selected: '+obj.id+' ('+obj.type+') · X '+obj.x.toFixed(1)+' · Y '+obj.y.toFixed(1)+' · Z '+obj.z.toFixed(1)+' · Size '+obj.size.toFixed(1):'No object selected';
+}
 function sync(){
  $('sceneName').value=state.name;
  const list=$('objects');list.replaceChildren();
@@ -108,6 +119,7 @@ function sync(){
  const o=current();
  for(const [id,key,out] of [['posX','x','xVal'],['posY','y','yVal'],['posZ','z','zVal'],['scale','size','sizeVal']]){$(id).disabled=!o;$(id).value=o?o[key]:id==='scale'?1:0;$(out).textContent=o?o[key].toFixed(1):'—'}
  $('removeObject').disabled=!o;$('duplicateObject').disabled=!o;
+ updateInspector();
 }
 function reset(){state={schema:'ssits.creative-studio.arvr-scene',version:1,name:'SS ITS Demo Scene',objects:[],view:{yaw:.55,pitch:.3,zoom:1}};nextId=1;add('cube',-1,.5,0);add('sphere',1,.6,-.4);add('pillar',0,.5,1.5);selected=state.objects[0].id;sync();draw()}
 for(const [id,type] of [['addCube','cube'],['addSphere','sphere'],['addPillar','pillar']])$(id).addEventListener('click',()=>{add(type);notify(type+' added')});
