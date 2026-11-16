@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 15,
+  "batch_count": 16,
   "batches": [
     {
       "module": 13,
@@ -361,8 +361,31 @@
         "Navigation does not wrap around",
         "Manual browser and regression QA required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 16,
+      "name": "Selection Status & Quick Focus",
+      "implemented": [
+        "Navigator shows selected object ID and type",
+        "Status indicates when current filters exclude selected object",
+        "Find Selected in List clears search/type/status filters while retaining sort order",
+        "Scrolls to selected object and focuses its Select button",
+        "Selection and scene data remain unchanged; existing navigation preserved"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_selection_status_ids": "PASS",
+        "cumulative_audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Find Selected scrolls the navigator entry, not the 3D camera",
+        "Manual browser regression testing required"
+      ]
     }
   ],
-  "overall_status": "Batch 15 development committed; manual browser QA pending",
-  "note": "Batches 1–15 cumulative. Batch 14 browser tests reported PASS by user; Batch 15 browser QA pending."
+  "overall_status": "Batch 16 development committed; manual browser QA pending",
+  "note": "Batches 1–16 cumulative. Batch 15 browser tests reported PASS by user; Batch 16 browser QA pending."
 }
