@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 27,
+  "batch_count": 28,
   "batches": [
     {
       "module": 13,
@@ -653,8 +653,33 @@
         "Backup preview is read-only and does not resolve duplicate names",
         "Batches 25–27 require browser regression QA before release"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 28,
+      "name": "Selective Local Backup Preset Restore",
+      "implemented": [
+        "Select one saved navigator preset from validated local backup",
+        "Restore only the chosen preset into session without overwriting other presets",
+        "Reject duplicate names, invalid selections and restores beyond the 10-preset limit",
+        "Refresh backup selection after local save, preview and clear",
+        "Preserve original scene JSON, renderers, preset import/export and undo/redo"
+      ],
+      "static_checks": {
+        "unique_html_ids": "PASS",
+        "source_controls_present": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "automated_browser_qa": "NOT RUN",
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Restore is manual and local to the current browser",
+        "Backup contents may change between selection and restore; validation repeats on restore",
+        "Batches 25–28 browser regression remains pending"
+      ]
     }
   ],
-  "overall_status": "Batch 27 committed to development branch; structural checks PASS; browser QA pending",
-  "note": "Batches 1–27 cumulative; automated browser regression for Batches 25–27 remains pending."
+  "overall_status": "Batch 28 committed to review branch; static checks PASS; browser regression pending",
+  "note": "Batches 1–28 cumulative. Batch 24 automated browser checks reported PASS; Batch 25–28 browser tests not run."
 }
