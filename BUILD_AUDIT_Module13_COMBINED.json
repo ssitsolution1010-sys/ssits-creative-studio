@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 11,
+  "batch_count": 12,
   "batches": [
     {
       "module": 13,
@@ -269,8 +269,31 @@
         "Filters and sorting are not persisted across reload",
         "Manual browser regression testing required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 12,
+      "name": "Scene Navigator Quick Actions",
+      "implemented": [
+        "Per-object Hide/Show button directly in navigator",
+        "Per-object Lock/Unlock button directly in navigator",
+        "Accessible action labels include object IDs",
+        "Quick actions refresh inspector and Canvas/WebGL preview",
+        "Existing search, type/status filters and sorting retained; scene schema unchanged"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "cumulative_audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Quick action changes remain session-only and are not independently undoable",
+        "Changing status may remove object from currently filtered list",
+        "Manual browser QA and regression testing pending"
+      ]
     }
   ],
-  "overall_status": "Batch 11 development committed; manual browser QA pending",
-  "note": "Batches 1–11 cumulative. Batch 10 browser tests reported PASS by user; Batch 11 browser QA pending."
+  "overall_status": "Batch 12 development committed; manual browser QA pending",
+  "note": "Batches 1–12 cumulative. Batch 11 browser tests reported PASS by user; Batch 12 QA pending."
 }
