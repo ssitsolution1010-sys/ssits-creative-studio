@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 21</title>
+<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 22</title>
 <style>
 :root{color-scheme:dark;--bg:#111915;--panel:#1d2a23;--line:#3e5847;--gold:#e7c47b;--text:#f1f4ee;--muted:#b9cbbb}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
@@ -22,7 +22,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 @media(max-width:850px){main{grid-template-columns:1fr}canvas{height:350px}}
 </style></head><body>
 <header><h1>SS ITS Creative Studio — AR / VR &amp; Interactive</h1>
-<p class="muted">Module 13 · Batch 21 — Visibility & Lock Quick Filters</p></header>
+<p class="muted">Module 13 · Batch 22 — Navigator Filter Presets</p></header>
 <main>
 <section class="panel" aria-labelledby="stageTitle">
 <h2 id="stageTitle">Interactive 3D-style Scene Preview</h2>
@@ -39,7 +39,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 <h2 id="toolsTitle">Scene Editor</h2>
 <section aria-label="Scene inspector" class="hint small"><strong>Scene Inspector</strong><p id="sceneStats" aria-live="polite">Loading scene statistics…</p><p id="selectionStats">No object selected</p></section>
 <label for="sceneName">Scene name</label><input id="sceneName" type="text" maxlength="100" value="SS ITS Demo Scene">
-<label for="objectSearch">Find objects by ID or type</label><input id="objectSearch" type="search" autocomplete="off" placeholder="Search cube, sphere, pillar or ID" aria-controls="objects"><div class="toolbar"><label for="objectTypeFilter">Type <select id="objectTypeFilter"><option value="all">All types</option><option value="cube">Cube</option><option value="sphere">Sphere</option><option value="pillar">Pillar</option></select></label><label for="objectStatusFilter">Status <select id="objectStatusFilter"><option value="all">All objects</option><option value="visible">Visible</option><option value="hidden">Hidden</option><option value="locked">Locked</option><option value="unlocked">Unlocked</option></select></label><label for="objectSort">Sort <select id="objectSort"><option value="original">Scene order</option><option value="id-asc">ID A–Z</option><option value="id-desc">ID Z–A</option></select></label></div><div class="toolbar"><button type="button" id="resetNavigator">Reset Navigator Filters</button><button type="button" id="clearSelection">Clear Selection</button><button type="button" id="previousObject">Previous Object</button><button type="button" id="nextObject">Next Object</button><button type="button" id="firstObject">First Object</button><button type="button" id="lastObject">Last Object</button></div><p id="objectSearchCount" class="muted small" aria-live="polite"></p><p id="navigatorSelectionStatus" class="muted small" aria-live="polite">No object selected</p><p id="navigatorPosition" class="muted small" aria-live="polite">No navigator position</p><p id="navigatorCounts" class="muted small" aria-live="polite">Loading object counts…</p><div class="toolbar" role="group" aria-label="Quick filter by object type"><button type="button" id="quickAllTypes">All Types (0)</button><button type="button" id="quickCube">Cubes (0)</button><button type="button" id="quickSphere">Spheres (0)</button><button type="button" id="quickPillar">Pillars (0)</button></div><div class="toolbar" role="group" aria-label="Quick filter by visibility and lock status"><button type="button" id="quickStatusAll">All Status (0)</button><button type="button" id="quickVisible">Visible (0)</button><button type="button" id="quickHidden">Hidden (0)</button><button type="button" id="quickLocked">Locked (0)</button><button type="button" id="quickUnlocked">Unlocked (0)</button></div><div id="navigatorEmptyState" class="hint small" role="status" hidden><p>No objects match the current search or filters.</p><button type="button" id="resetEmptyFilters">Clear Filters</button></div><button type="button" id="focusSelectedObject">Find Selected in List</button><p class="muted small" id="navigatorKeyboardHelp">Keyboard: focus a button in the object list, then use ↑/↓ to select previous/next or Home/End for first/last.</p><label for="objects">Objects (select one)</label><ul id="objects" aria-describedby="navigatorKeyboardHelp"></ul>
+<label for="objectSearch">Find objects by ID or type</label><input id="objectSearch" type="search" autocomplete="off" placeholder="Search cube, sphere, pillar or ID" aria-controls="objects"><div class="toolbar"><label for="objectTypeFilter">Type <select id="objectTypeFilter"><option value="all">All types</option><option value="cube">Cube</option><option value="sphere">Sphere</option><option value="pillar">Pillar</option></select></label><label for="objectStatusFilter">Status <select id="objectStatusFilter"><option value="all">All objects</option><option value="visible">Visible</option><option value="hidden">Hidden</option><option value="locked">Locked</option><option value="unlocked">Unlocked</option></select></label><label for="objectSort">Sort <select id="objectSort"><option value="original">Scene order</option><option value="id-asc">ID A–Z</option><option value="id-desc">ID Z–A</option></select></label></div><div class="toolbar"><button type="button" id="resetNavigator">Reset Navigator Filters</button><button type="button" id="clearSelection">Clear Selection</button><button type="button" id="previousObject">Previous Object</button><button type="button" id="nextObject">Next Object</button><button type="button" id="firstObject">First Object</button><button type="button" id="lastObject">Last Object</button></div><div class="toolbar" role="group" aria-label="Navigator filter presets"><label for="navigatorPresetName">Preset name <input id="navigatorPresetName" type="text" maxlength="40" placeholder="e.g. Locked cubes"></label><button type="button" id="saveNavigatorPreset">Save Preset</button><label for="navigatorPresetSelect">Saved presets <select id="navigatorPresetSelect"><option value="">Choose a preset</option></select></label><button type="button" id="applyNavigatorPreset" disabled>Apply Preset</button><button type="button" id="deleteNavigatorPreset" disabled>Delete Preset</button></div><p id="navigatorPresetStatus" class="muted small" role="status" aria-live="polite">Presets are kept only until this page is reloaded.</p><p id="objectSearchCount" class="muted small" aria-live="polite"></p><p id="navigatorSelectionStatus" class="muted small" aria-live="polite">No object selected</p><p id="navigatorPosition" class="muted small" aria-live="polite">No navigator position</p><p id="navigatorCounts" class="muted small" aria-live="polite">Loading object counts…</p><div class="toolbar" role="group" aria-label="Quick filter by object type"><button type="button" id="quickAllTypes">All Types (0)</button><button type="button" id="quickCube">Cubes (0)</button><button type="button" id="quickSphere">Spheres (0)</button><button type="button" id="quickPillar">Pillars (0)</button></div><div class="toolbar" role="group" aria-label="Quick filter by visibility and lock status"><button type="button" id="quickStatusAll">All Status (0)</button><button type="button" id="quickVisible">Visible (0)</button><button type="button" id="quickHidden">Hidden (0)</button><button type="button" id="quickLocked">Locked (0)</button><button type="button" id="quickUnlocked">Unlocked (0)</button></div><div id="navigatorEmptyState" class="hint small" role="status" hidden><p>No objects match the current search or filters.</p><button type="button" id="resetEmptyFilters">Clear Filters</button></div><button type="button" id="focusSelectedObject">Find Selected in List</button><p class="muted small" id="navigatorKeyboardHelp">Keyboard: focus a button in the object list, then use ↑/↓ to select previous/next or Home/End for first/last.</p><label for="objects">Objects (select one)</label><ul id="objects" aria-describedby="navigatorKeyboardHelp"></ul>
 <label for="posX">Selected X <output id="xVal">0</output></label><input id="posX" type="range" min="-4" max="4" step=".1" value="0">
 <label for="posY">Selected Y <output id="yVal">0</output></label><input id="posY" type="range" min="0" max="4" step=".1" value="0">
 <label for="posZ">Selected Z <output id="zVal">0</output></label><input id="posZ" type="range" min="-4" max="4" step=".1" value="0">
@@ -295,6 +295,36 @@ webglCanvas.addEventListener('webglcontextrestored',()=>{gl=null;program=null;no
  $('saveLocal').addEventListener('click',()=>{try{localStorage.setItem(localKey,JSON.stringify(validateScene(state)));notify('Saved in this browser only')}catch(e){notify('Local save unavailable: '+e.message)}});
  $('loadLocal').addEventListener('click',()=>{try{const saved=localStorage.getItem(localKey);if(!saved){notify('No local save found');return}if(state.objects.length&&!confirm('Replace current scene with local save?'))return;applyScene(JSON.parse(saved));notify('Local scene loaded')}catch(e){notify('Local load failed: '+e.message)}});
  $('clearLocal').addEventListener('click',()=>{try{localStorage.removeItem(localKey);notify('Local save cleared')}catch(e){notify('Local storage unavailable: '+e.message)}});
+
+// Batch 22: in-memory filter presets; scene contents and exported JSON are untouched.
+const navigatorPresets=new Map();let navigatorPresetCounter=0;
+function syncNavigatorPresetControls(){
+ const select=$('navigatorPresetSelect'),previous=select.value;
+ select.replaceChildren(new Option('Choose a preset',''));
+ for(const [id,preset] of navigatorPresets)select.add(new Option(preset.name,id));
+ select.value=navigatorPresets.has(previous)?previous:'';
+ $('applyNavigatorPreset').disabled=!select.value;
+ $('deleteNavigatorPreset').disabled=!select.value;
+}
+$('saveNavigatorPreset').addEventListener('click',()=>{
+ const name=$('navigatorPresetName').value.trim();
+ if(!name){$('navigatorPresetStatus').textContent='Enter a preset name first.';return}
+ if(navigatorPresets.size>=10){$('navigatorPresetStatus').textContent='Maximum 10 presets per page session.';return}
+ const id='preset-'+(++navigatorPresetCounter);
+ navigatorPresets.set(id,{name,query:$('objectSearch').value,type:$('objectTypeFilter').value,status:$('objectStatusFilter').value,sort:$('objectSort').value});
+ syncNavigatorPresetControls();$('navigatorPresetSelect').value=id;syncNavigatorPresetControls();
+ $('navigatorPresetStatus').textContent='Saved preset: '+name;
+});
+$('navigatorPresetSelect').addEventListener('change',syncNavigatorPresetControls);
+$('applyNavigatorPreset').addEventListener('click',()=>{
+ const preset=navigatorPresets.get($('navigatorPresetSelect').value);if(!preset)return;
+ $('objectSearch').value=preset.query;$('objectTypeFilter').value=preset.type;$('objectStatusFilter').value=preset.status;$('objectSort').value=preset.sort;
+ sync();$('navigatorPresetStatus').textContent='Applied preset: '+preset.name;
+});
+$('deleteNavigatorPreset').addEventListener('click',()=>{
+ const id=$('navigatorPresetSelect').value,preset=navigatorPresets.get(id);if(!preset)return;
+ navigatorPresets.delete(id);syncNavigatorPresetControls();$('navigatorPresetStatus').textContent='Deleted preset: '+preset.name;
+});
 
 // Batch 21: status shortcuts reuse existing status filtering; no visibility/lock mutation.
 for(const [id,status] of [['quickStatusAll','all'],['quickVisible','visible'],['quickHidden','hidden'],['quickLocked','locked'],['quickUnlocked','unlocked']]){
