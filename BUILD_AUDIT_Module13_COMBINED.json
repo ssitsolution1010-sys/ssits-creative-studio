@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 4,
+  "batch_count": 5,
   "batches": [
     {
       "module": 13,
@@ -106,8 +106,30 @@
         "Asynchronous JSON import and local load are not yet tracked",
         "Fine-grained slider inputs each create a history entry"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 5,
+      "name": "Camera View Presets",
+      "implemented": [
+        "Front, Side and Top camera view buttons",
+        "Camera preset changes use existing scene view state and Undo/Redo history",
+        "Existing zoom level retained when switching camera views",
+        "Canvas and WebGL previews continue using shared view state"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "camera_button_ids_unique": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Top view pitch is limited to the existing 1.2 radian camera clamp",
+        "Manual browser regression QA still required"
+      ]
     }
   ],
-  "overall_status": "Batch 4 development committed; manual browser QA pending",
-  "note": "Cumulative Batches 1–4 preserved; static checks do not certify production readiness."
+  "overall_status": "Batch 5 development committed; manual browser QA pending",
+  "note": "Batches 1–5 cumulative; source/static checks do not imply production readiness."
 }
