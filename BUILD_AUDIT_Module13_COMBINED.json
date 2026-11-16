@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 20,
+  "batch_count": 21,
   "batches": [
     {
       "module": 13,
@@ -476,8 +476,31 @@
         "Quick type shortcuts change only the Navigator filter, not scene contents",
         "Manual browser and regression QA required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 21,
+      "name": "Visibility & Lock Quick Filters",
+      "implemented": [
+        "Quick status buttons for All, Visible, Hidden, Locked and Unlocked objects",
+        "Per-status live counts reflect current in-memory scene and session states",
+        "Active quick status button reflects current status dropdown via aria-pressed",
+        "Shortcuts synchronize existing status filter without modifying scene objects",
+        "Preserves type quick filters, search, sorting, keyboard navigation and Canvas/WebGL"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_quick_status_ids": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Visibility and lock states remain session-only",
+        "Quick status buttons only filter navigator entries; manual browser QA pending"
+      ]
     }
   ],
-  "overall_status": "Batch 20 development committed; manual browser QA pending",
-  "note": "Batches 1–20 cumulative. Batch 19 browser tests reported PASS by user; Batch 20 QA pending."
+  "overall_status": "Batch 21 development committed; manual browser QA pending",
+  "note": "Batches 1–21 cumulative. Batch 20 browser tests reported PASS by user; Batch 21 QA pending."
 }
