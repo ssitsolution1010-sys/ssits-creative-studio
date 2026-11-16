@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 25,
+  "batch_count": 26,
   "batches": [
     {
       "module": 13,
@@ -602,8 +602,33 @@
         "Local backups are device/browser specific",
         "A duplicate name blocks the entire restore without changing session presets"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 26,
+      "name": "Local Backup Inspection & Restore Readiness",
+      "implemented": [
+        "Check browser-local backup without changing current scene or navigator presets",
+        "Validate stored backup against existing Batch 24 versioned JSON schema",
+        "Report number of stored presets, duplicate-name conflicts and free session slots",
+        "Show whether restore is currently permitted by conflict and 10-preset capacity checks",
+        "Keep existing explicit Save, Restore and Clear behavior unchanged"
+      ],
+      "static_checks": {
+        "unique_html_ids": "PASS",
+        "new_inspection_control": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "automated_browser_qa": "NOT RUN",
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "LocalStorage access depends on browser permissions",
+        "Readiness status reflects the current session at time of inspection",
+        "Manual browser QA required before release"
+      ]
     }
   ],
-  "overall_status": "Batch 25 committed to review branch; static structural checks PASS; browser QA pending",
-  "note": "Batches 1–25 cumulative. Batch 24 automated Chromium tests reported 23/23 PASS in prior review branch. Batch 25 not yet browser tested."
+  "overall_status": "Batch 26 committed to development branch; static checks PASS; browser QA pending",
+  "note": "Batches 1–26 cumulative. Batch 24 automated QA 23/23 PASS in earlier review branch. Batches 25–26 browser QA pending."
 }
