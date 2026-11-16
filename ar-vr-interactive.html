@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 14</title>
+<title>SS ITS Creative Studio | Module 13 · AR / VR & Interactive · Batch 15</title>
 <style>
 :root{color-scheme:dark;--bg:#111915;--panel:#1d2a23;--line:#3e5847;--gold:#e7c47b;--text:#f1f4ee;--muted:#b9cbbb}*{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,Segoe UI,sans-serif}
@@ -22,7 +22,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 @media(max-width:850px){main{grid-template-columns:1fr}canvas{height:350px}}
 </style></head><body>
 <header><h1>SS ITS Creative Studio — AR / VR &amp; Interactive</h1>
-<p class="muted">Module 13 · Batch 14 — Previous & Next Object Navigation</p></header>
+<p class="muted">Module 13 · Batch 15 — First & Last Object Navigation</p></header>
 <main>
 <section class="panel" aria-labelledby="stageTitle">
 <h2 id="stageTitle">Interactive 3D-style Scene Preview</h2>
@@ -39,7 +39,7 @@ footer{max-width:1380px;margin:20px auto;padding:0 18px 25px;color:var(--muted);
 <h2 id="toolsTitle">Scene Editor</h2>
 <section aria-label="Scene inspector" class="hint small"><strong>Scene Inspector</strong><p id="sceneStats" aria-live="polite">Loading scene statistics…</p><p id="selectionStats">No object selected</p></section>
 <label for="sceneName">Scene name</label><input id="sceneName" type="text" maxlength="100" value="SS ITS Demo Scene">
-<label for="objectSearch">Find objects by ID or type</label><input id="objectSearch" type="search" autocomplete="off" placeholder="Search cube, sphere, pillar or ID" aria-controls="objects"><div class="toolbar"><label for="objectTypeFilter">Type <select id="objectTypeFilter"><option value="all">All types</option><option value="cube">Cube</option><option value="sphere">Sphere</option><option value="pillar">Pillar</option></select></label><label for="objectStatusFilter">Status <select id="objectStatusFilter"><option value="all">All objects</option><option value="visible">Visible</option><option value="hidden">Hidden</option><option value="locked">Locked</option><option value="unlocked">Unlocked</option></select></label><label for="objectSort">Sort <select id="objectSort"><option value="original">Scene order</option><option value="id-asc">ID A–Z</option><option value="id-desc">ID Z–A</option></select></label></div><div class="toolbar"><button type="button" id="resetNavigator">Reset Navigator Filters</button><button type="button" id="clearSelection">Clear Selection</button><button type="button" id="previousObject">Previous Object</button><button type="button" id="nextObject">Next Object</button></div><p id="objectSearchCount" class="muted small" aria-live="polite"></p><label for="objects">Objects (select one)</label><ul id="objects"></ul>
+<label for="objectSearch">Find objects by ID or type</label><input id="objectSearch" type="search" autocomplete="off" placeholder="Search cube, sphere, pillar or ID" aria-controls="objects"><div class="toolbar"><label for="objectTypeFilter">Type <select id="objectTypeFilter"><option value="all">All types</option><option value="cube">Cube</option><option value="sphere">Sphere</option><option value="pillar">Pillar</option></select></label><label for="objectStatusFilter">Status <select id="objectStatusFilter"><option value="all">All objects</option><option value="visible">Visible</option><option value="hidden">Hidden</option><option value="locked">Locked</option><option value="unlocked">Unlocked</option></select></label><label for="objectSort">Sort <select id="objectSort"><option value="original">Scene order</option><option value="id-asc">ID A–Z</option><option value="id-desc">ID Z–A</option></select></label></div><div class="toolbar"><button type="button" id="resetNavigator">Reset Navigator Filters</button><button type="button" id="clearSelection">Clear Selection</button><button type="button" id="previousObject">Previous Object</button><button type="button" id="nextObject">Next Object</button><button type="button" id="firstObject">First Object</button><button type="button" id="lastObject">Last Object</button></div><p id="objectSearchCount" class="muted small" aria-live="polite"></p><label for="objects">Objects (select one)</label><ul id="objects"></ul>
 <label for="posX">Selected X <output id="xVal">0</output></label><input id="posX" type="range" min="-4" max="4" step=".1" value="0">
 <label for="posY">Selected Y <output id="yVal">0</output></label><input id="posY" type="range" min="0" max="4" step=".1" value="0">
 <label for="posZ">Selected Z <output id="zVal">0</output></label><input id="posZ" type="range" min="-4" max="4" step=".1" value="0">
@@ -139,6 +139,8 @@ function sync(){
  const selectedIndex=matches.findIndex(o=>o.id===selected);
  $('previousObject').disabled=!matches.length||selectedIndex===0;
  $('nextObject').disabled=!matches.length||selectedIndex===matches.length-1;
+ $('firstObject').disabled=!matches.length||selectedIndex===0;
+ $('lastObject').disabled=!matches.length||selectedIndex===matches.length-1;
  $('clearSelection').disabled=!selected;
  for(const o of matches){const li=document.createElement('li'),name=document.createElement('span'),b=document.createElement('button');li.dataset.objectId=o.id;name.textContent=o.type+' · '+o.id+(isVisible(o)?'':' · Hidden')+(isLocked(o)?' · Locked':'');b.type='button';b.textContent='Select';b.setAttribute('aria-current',String(o.id===selected));b.addEventListener('click',()=>{selected=o.id;sync();draw()});const visibility=document.createElement('button'),lock=document.createElement('button');
  visibility.type='button';visibility.textContent=isVisible(o)?'Hide':'Show';visibility.setAttribute('aria-label',(isVisible(o)?'Hide ':'Show ')+o.id);
@@ -289,6 +291,15 @@ function navigateObject(direction){
 }
 $('previousObject').addEventListener('click',()=>navigateObject(-1));
 $('nextObject').addEventListener('click',()=>navigateObject(1));
+function jumpToObject(edge){
+ const ids=Array.from($('objects').children,li=>li.dataset.objectId).filter(Boolean);
+ if(!ids.length)return;
+ const id=edge==='first'?ids[0]:ids[ids.length-1];
+ if(selected===id)return;
+ selected=id;sync();draw();notify('Selected '+id);
+}
+$('firstObject').addEventListener('click',()=>jumpToObject('first'));
+$('lastObject').addEventListener('click',()=>jumpToObject('last'));
 
 // Batch 13: navigation reset and selection clear do not mutate scene objects.
 $('resetNavigator').addEventListener('click',()=>{
