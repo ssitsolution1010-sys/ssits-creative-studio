@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 12,
+  "batch_count": 13,
   "batches": [
     {
       "module": 13,
@@ -292,8 +292,30 @@
         "Changing status may remove object from currently filtered list",
         "Manual browser QA and regression testing pending"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 13,
+      "name": "Navigator Reset & Selection Tools",
+      "implemented": [
+        "Reset search, type filter, status filter and sorting in one action",
+        "Clear currently selected object without deleting it",
+        "Disable Clear Selection when no object is selected",
+        "Preserve scene objects, camera, visibility, locks, Canvas/WebGL and JSON schema"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_control_ids": "PASS",
+        "cumulative_audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Clear Selection changes only active selection; it does not clear scene contents",
+        "Manual browser and regression testing required"
+      ]
     }
   ],
-  "overall_status": "Batch 12 development committed; manual browser QA pending",
-  "note": "Batches 1–12 cumulative. Batch 11 browser tests reported PASS by user; Batch 12 QA pending."
+  "overall_status": "Batch 13 development committed; manual browser QA pending",
+  "note": "Batches 1–13 cumulative. Batch 12 browser tests reported PASS by user; Batch 13 browser QA pending."
 }
