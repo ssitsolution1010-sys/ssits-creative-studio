@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 10,
+  "batch_count": 11,
   "batches": [
     {
       "module": 13,
@@ -245,8 +245,32 @@
         "Search matches only object ID and type, not coordinates",
         "Manual browser QA and regression testing required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 11,
+      "name": "Scene Navigator Filters & Sorting",
+      "implemented": [
+        "Filter scene navigator by cube, sphere or pillar",
+        "Filter by visible, hidden, locked or unlocked status",
+        "Sort navigator by object ID ascending or descending, or original scene order",
+        "Combine search text with status and type filters",
+        "Navigator filtering never changes scene data, renderer order or JSON format"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_filter_control_ids": "PASS",
+        "cumulative_audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Sorting is lexical with numeric comparison on IDs, not scene depth",
+        "Filters and sorting are not persisted across reload",
+        "Manual browser regression testing required"
+      ]
     }
   ],
-  "overall_status": "Batch 10 development committed; manual browser QA pending",
-  "note": "Batches 1–10 cumulative. Batch 9 browser regression tests reported PASS by user; Batch 10 browser QA pending."
+  "overall_status": "Batch 11 development committed; manual browser QA pending",
+  "note": "Batches 1–11 cumulative. Batch 10 browser tests reported PASS by user; Batch 11 browser QA pending."
 }
