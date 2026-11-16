@@ -1,0 +1,106 @@
+{
+  "project": "SS ITS Creative Studio",
+  "module": 13,
+  "batch": 24,
+  "method": "Headless Chromium with Playwright, using standalone HTML build",
+  "status": "PASS",
+  "passed": 23,
+  "total": 23,
+  "checks": [
+    {
+      "name": "Batch24 script loads without exceptions",
+      "status": "PASS"
+    },
+    {
+      "name": "Scene initial objects",
+      "status": "PASS"
+    },
+    {
+      "name": "Local structural QA",
+      "status": "PASS"
+    },
+    {
+      "name": "Export initially disabled",
+      "status": "PASS"
+    },
+    {
+      "name": "Create preset",
+      "status": "PASS"
+    },
+    {
+      "name": "Rename preset",
+      "status": "PASS"
+    },
+    {
+      "name": "Update and Apply",
+      "status": "PASS"
+    },
+    {
+      "name": "Preset export JSON shape",
+      "status": "PASS"
+    },
+    {
+      "name": "Export values match",
+      "status": "PASS"
+    },
+    {
+      "name": "Scene remains unmodified after preset operations",
+      "status": "PASS"
+    },
+    {
+      "name": "Duplicate import rejected atomically",
+      "status": "PASS"
+    },
+    {
+      "name": "Valid import",
+      "status": "PASS"
+    },
+    {
+      "name": "Apply imported preset",
+      "status": "PASS"
+    },
+    {
+      "name": "Reject incompatible version",
+      "status": "PASS"
+    },
+    {
+      "name": "Reject illegal filters",
+      "status": "PASS"
+    },
+    {
+      "name": "Reject duplicate names within file",
+      "status": "PASS"
+    },
+    {
+      "name": "Atomic 10-preset cap",
+      "status": "PASS"
+    },
+    {
+      "name": "Quick type filter preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "Navigator selection preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "Renderer mode works",
+      "status": "PASS"
+    },
+    {
+      "name": "Add object preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "Undo preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "No uncaught browser exceptions",
+      "status": "PASS"
+    }
+  ],
+  "manual_acceptance": "PENDING",
+  "live_deployment": "NOT VERIFIED",
+  "notes": "One pre-existing capture-phase Undo history timing issue was repaired, then undo passed automated regression."
+}

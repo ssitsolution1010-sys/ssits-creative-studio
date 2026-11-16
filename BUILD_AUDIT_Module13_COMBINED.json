@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 23,
+  "batch_count": 24,
   "batches": [
     {
       "module": 13,
@@ -546,8 +546,39 @@
         "Preset changes are not persisted across page reload",
         "Manual browser and regression QA required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 24,
+      "name": "Navigator Filter Preset JSON Import & Export",
+      "implemented": [
+        "Export session navigator presets using a versioned JSON schema",
+        "Import validated JSON without overwriting existing named presets",
+        "Reject invalid schema/version/filter values, duplicate names, files over 64 KB and imports exceeding ten presets",
+        "Preserve Canvas and WebGL rendering, scene JSON format, navigator quick filters, rename/update/apply/delete",
+        "Fix pre-existing Undo/Redo capture-phase timing by scheduling snapshots after click/input handlers"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "audit_json_parse": "PASS",
+        "javascript_syntax": "PASS"
+      },
+      "automated_browser_qa": {
+        "status": "PASS",
+        "passed": 23,
+        "total": 23,
+        "tool": "Playwright Chromium headless",
+        "covered": "Presets export/import/validation/atomicity, filters, renderer toggle, scene edit and undo"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "No headset WebXR or camera AR",
+        "Navigator presets are session-only until explicitly exported",
+        "Manual user acceptance and live deployment verification pending"
+      ]
     }
   ],
-  "overall_status": "Batch 23 development committed; manual browser QA pending",
-  "note": "Batches 1–23 cumulative. Batch 22 browser tests reported PASS by user; Batch 23 QA pending."
+  "overall_status": "Batch 24 committed to review branch; automated Chromium tests 23/23 PASS; manual QA and deployment pending",
+  "note": "Batches 1–24 cumulative. Batch 23 browser tests reported PASS by user; Batch 24 Playwright automated 23/23 PASS. Main branch unchanged."
 }
