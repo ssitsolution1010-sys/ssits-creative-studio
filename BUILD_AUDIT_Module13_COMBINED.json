@@ -3,7 +3,7 @@
   "module": 13,
   "module_name": "AR / VR & Interactive",
   "audit_type": "cumulative",
-  "batch_count": 17,
+  "batch_count": 18,
   "batches": [
     {
       "module": 13,
@@ -407,8 +407,31 @@
         "Keyboard navigation requires focus on a button inside object list",
         "Manual browser and regression QA required"
       ]
+    },
+    {
+      "module": 13,
+      "batch": 18,
+      "name": "Navigator Position & Empty State",
+      "implemented": [
+        "Show selected object's position within currently filtered and sorted navigator list",
+        "Explain when selection is outside current filter results",
+        "Display explicit empty state when no objects match",
+        "Offer Clear Filters action through existing navigator reset logic",
+        "Keep scene, rendering, object selection and JSON schema unchanged"
+      ],
+      "static_checks": {
+        "source_patch_integrity": "PASS",
+        "unique_control_ids": "PASS",
+        "audit_json_parse": "PASS"
+      },
+      "manual_browser_qa": "PENDING",
+      "deployment": "NOT VERIFIED",
+      "limitations": [
+        "Position counts filtered navigator entries, not scene depth",
+        "Manual browser regression QA required"
+      ]
     }
   ],
-  "overall_status": "Batch 17 development committed; manual browser QA pending",
-  "note": "Batches 1–17 cumulative. Batch 16 browser tests reported PASS by user; Batch 17 QA pending."
+  "overall_status": "Batch 18 development committed; manual browser QA pending",
+  "note": "Batches 1–18 cumulative. Batch 17 browser tests reported PASS by user; Batch 18 QA pending."
 }
